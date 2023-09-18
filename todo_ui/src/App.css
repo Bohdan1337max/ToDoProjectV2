@@ -1,0 +1,106 @@
+@import url('https://fonts.googleapis.com/css2?family=Bangers&display=swap');
+
+body {
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    font-family: 'Bangers', cursive;
+}
+
+header {
+    text-align: center;
+    font-size: 30px;
+}
+
+.todo-input {
+    width: 500px;
+    height: 20px;
+    align-self: center;
+    margin-right: 30px;
+}
+
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+
+}
+
+.post-button {
+    background-color: #863d80;
+    border: 2px solid #863d80;
+    border-radius: 12px;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    transition-duration: 0.4s;
+    cursor: pointer
+}
+
+.post-button:hover {
+    background-color: white; /* Green */
+    color: black;
+}
+
+.post {
+    border: 2px solid black;
+    border-radius: 15px;
+    display: flex;
+    justify-content: space-between;
+    max-width: 70%;
+    margin: 50px auto 0;
+}
+
+h2 {
+    margin-left: 20px;
+}
+
+.edit-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.delete-button {
+    background-color: white; /* Red background color */
+    color: #fff; /* White text color */
+    border: none; /* Remove the button border */
+    padding: 10px 20px; /* Add padding to the button */ /* Rounded corners */
+    cursor: pointer; /* Change cursor on hover */
+
+}
+.delete-img {
+    cursor: pointer;
+
+}
+.edit-button {
+    background-color: rgba(51, 51, 51, 0.05);
+    border-radius: 8px;
+    border-width: 0;
+    color: #333333;
+    cursor: pointer;
+    display: inline-block;
+    font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    list-style: none;
+    margin-right: 10px;
+    padding: 10px 12px;
+    text-align: center;
+    transition: all 200ms;
+    vertical-align: baseline;
+    white-space: nowrap;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+.post-buttons p {
+
+    align-self: center;
+}
