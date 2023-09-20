@@ -5,7 +5,6 @@ import Todo from "./Todo";
 function TodoList() {
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
-    const [isCompleted, setIsCompleted] = useState(false);
     const [isPosted, setIsPosted] = useState(false);
     const [todos, setTodos] = useState([]);
 

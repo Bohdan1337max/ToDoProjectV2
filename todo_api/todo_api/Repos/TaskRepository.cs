@@ -1,3 +1,6 @@
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
+
 namespace todo_api.Repos;
 
 public class TaskRepository : ITaskRepository
@@ -9,8 +12,13 @@ public class TaskRepository : ITaskRepository
         return _tasks;
     }
 
-    public Task AddTask(string name)
+    public (bool isValid,Task task) AddTask(string name)
     {
+        var isValid = false;
+        if (name.Trim() == "")
+            return (isValid, task: new Task());
+        isValid = true;
+        
         var task = new Task()
         {
             Id = _id + 1,
@@ -19,7 +27,7 @@ public class TaskRepository : ITaskRepository
         };
         _id++;
         _tasks.Add(task);
-        return task;
+        return (isValid,task);
     }
 
     public void DeleteTask(int id)

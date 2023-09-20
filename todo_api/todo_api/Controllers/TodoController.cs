@@ -21,9 +21,12 @@ public class TodoController : ControllerBase
     }
 
     [HttpPost]
-    public Task AddTask([FromBody] string name)
+    public IActionResult AddTask([FromBody] string name)
     {
-        return _taskRepository.AddTask(name);
+        var (isValid, task) = _taskRepository.AddTask(name);
+        if (!isValid)
+            return BadRequest("Not valid task text");
+        return Ok(task);        
     }
 
     [HttpDelete]
