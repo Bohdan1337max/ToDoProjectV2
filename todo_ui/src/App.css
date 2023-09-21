@@ -45,9 +45,7 @@ header {
     background-color: white; /* Green */
     color: black;
 }
-.post-buttons p {
-    align-self: center;
-}
+
 .post {
     border: 2px solid black;
     border-radius: 15px;
@@ -58,7 +56,6 @@ header {
     margin: 50px auto 0;
 
 }
-
 
 .completed {
     box-shadow: 0px 16px 16px rgba(56, 206, 53, 0.44);

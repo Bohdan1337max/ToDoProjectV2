@@ -1,9 +1,12 @@
+using EFDataAccessLibrary;
+using EFDataAccessLibrary.Models;
+
 namespace todo_api.Repos;
 
 public interface ITaskRepository
 {
-    IEnumerable<Task> GetTasks();
-    (bool isValid,Task task) AddTask(string name);
+    IEnumerable<Todo> GetTasks();
+    Todo AddTask(string name);
     void DeleteTask(int id);
-    (bool isUpdated, Task? taskToUpdate) UpdateTask(Task task);
+    (bool isUpdated, Todo? taskToUpdate) UpdateTask(Todo task);
 }

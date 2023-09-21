@@ -1,3 +1,5 @@
+using EFDataAccessLibrary;
+using EFDataAccessLibrary.Models;
 using Microsoft.AspNetCore.Mvc;
 using todo_api.Repos;
 
@@ -15,7 +17,7 @@ public class TodoController : ControllerBase
     }
 
     [HttpGet]
-    public IEnumerable<Task> GetTask()
+    public IEnumerable<Todo> GetTask()
     {
         return _taskRepository.GetTasks();
     }
@@ -23,10 +25,12 @@ public class TodoController : ControllerBase
     [HttpPost]
     public IActionResult AddTask([FromBody] string name)
     {
-        var (isValid, task) = _taskRepository.AddTask(name);
-        if (!isValid)
+        if (name.Trim() == "")
             return BadRequest("Not valid task text");
-        return Ok(task);        
+        var task = _taskRepository.AddTask(name);
+
+
+        return Ok(task);
     }
 
     [HttpDelete]
@@ -37,7 +41,7 @@ public class TodoController : ControllerBase
     }
 
     [HttpPut]
-    public IActionResult UpdateTask(Task task)
+    public IActionResult UpdateTask(Todo task)
     {
         var (isUpdated, updatedTask) = _taskRepository.UpdateTask(task);
         if (!isUpdated)

@@ -1,52 +1,42 @@
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
+using EFDataAccessLibrary;
+using EFDataAccessLibrary.DataAccess;
+using EFDataAccessLibrary.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace todo_api.Repos;
 
 public class TaskRepository : ITaskRepository
 {
-    private readonly List<Task> _tasks = new ();
-    private int _id;
-    public IEnumerable<Task> GetTasks()
+    private readonly TasksContext _tasksContext;
+    public TaskRepository(TasksContext tasksContext)
     {
-        return _tasks;
+        _tasksContext = tasksContext;
+    }
+    public IEnumerable<Todo> GetTasks()
+    {
+        return _tasksContext.Tasks.ToList();
     }
 
-    public (bool isValid,Task task) AddTask(string name)
+    public Todo AddTask(string name)
     {
-        var isValid = false;
-        if (name.Trim() == "")
-            return (isValid, task: new Task());
-        isValid = true;
-        
-        var task = new Task()
+        var task = new Todo()
         {
-            Id = _id + 1,
             Completed = false,
             Name = name
         };
-        _id++;
-        _tasks.Add(task);
-        return (isValid,task);
+
+       var taskFromDb =  _tasksContext.Tasks.Add(task);
+        _tasksContext.SaveChanges();
+        return taskFromDb.Entity;
     }
 
     public void DeleteTask(int id)
     {
-        var deletedTask = _tasks.FirstOrDefault(t => t.Id == id);
-        if (deletedTask != null)
-            _tasks.Remove(deletedTask);
-        
+        throw new NotImplementedException();
     }
 
-    public (bool isUpdated, Task? taskToUpdate) UpdateTask(Task task)
+    public (bool isUpdated, Todo? taskToUpdate) UpdateTask(Todo task)
     {
-        var isUpdated = false;
-        var taskToUpdate = _tasks.FirstOrDefault(t => t.Id == task.Id);
-        if (taskToUpdate == null)
-            return (isUpdated, taskToUpdate);
-        isUpdated = true;
-        taskToUpdate.Name = task.Name;
-        taskToUpdate.Completed = task.Completed;
-        return (isUpdated, taskToUpdate);
+        throw new NotImplementedException();
     }
 }
