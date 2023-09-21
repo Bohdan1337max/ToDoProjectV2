@@ -5,8 +5,8 @@ namespace todo_api.Repos;
 
 public interface ITaskRepository
 {
-    IEnumerable<Todo> GetTasks();
-    Todo AddTask(string name);
-    void DeleteTask(int id);
-    (bool isUpdated, Todo? taskToUpdate) UpdateTask(Todo task);
+    IEnumerable<Todo> GetTodo();
+    Todo AddTodo(string name);
+    bool DeleteTodo(int id);
+    (bool isUpdated, Todo? updatedTodo) UpdateTodo(Todo todo);
 }

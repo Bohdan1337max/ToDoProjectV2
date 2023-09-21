@@ -10,12 +10,12 @@ public class LocalTaskRepository : ITaskRepository
     private readonly List<Todo> _tasks = new();
     private int _id;
 
-    public IEnumerable<Todo> GetTasks()
+    public IEnumerable<Todo> GetTodo()
     {
         return _tasks;
     }
     
-    public Todo AddTask(string name)
+    public Todo AddTodo(string name)
     {
         var task = new Todo()
         {
@@ -28,22 +28,23 @@ public class LocalTaskRepository : ITaskRepository
         return task;
     }
 
-    public void DeleteTask(int id)
+    public bool DeleteTodo(int id)
     {
         var deletedTask = _tasks.FirstOrDefault(t => t.Id == id);
-        if (deletedTask != null)
-            _tasks.Remove(deletedTask);
+        if (deletedTask == null) return false;
+        _tasks.Remove(deletedTask);
+        return true;
     }
 
-    public (bool isUpdated, Todo? taskToUpdate) UpdateTask(Todo task)
+    public (bool isUpdated, Todo? updatedTodo) UpdateTodo(Todo todo)
     {
         var isUpdated = false;
-        var taskToUpdate = _tasks.FirstOrDefault(t => t.Id == task.Id);
+        var taskToUpdate = _tasks.FirstOrDefault(t => t.Id == todo.Id);
         if (taskToUpdate == null)
             return (isUpdated, taskToUpdate);
         isUpdated = true;
-        taskToUpdate.Name = task.Name;
-        taskToUpdate.Completed = task.Completed;
+        taskToUpdate.Name = todo.Name;
+        taskToUpdate.Completed = todo.Completed;
         return (isUpdated, taskToUpdate);
     }
 }
