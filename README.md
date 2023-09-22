@@ -38,7 +38,6 @@ Before you begin, ensure you have met the following requirements:
 ### Backend Setup
 
 1. Clone the repository:
-```bash
 git clone https://github.com/Bohdan1337max/ToDoProjectV2
 2. Navigate to the backend directory:
 cd todo_api
