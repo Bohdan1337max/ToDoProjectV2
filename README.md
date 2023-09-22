@@ -38,10 +38,10 @@ Before you begin, ensure you have met the following requirements:
 ### Backend Setup
 
 1. Clone the repository:
-git clone https://github.com/Bohdan1337max/ToDoProjectV2
+  git clone https://github.com/Bohdan1337max/ToDoProjectV2
 2. Navigate to the backend directory:
-cd todo_api
-3. Create a PostgreSQL database for the application. 
+  cd todo_api
+3. Create a PostgreSQL database for the application.  
 4. Update the connection string in appsettings.json to point to your PostgreSQL database:
   "ConnectionStrings": {
    "TodoDb": "Server=127.0.0.1;Port=5432;Database=tododb;User Id=postgres;Password=dovakinis3"
