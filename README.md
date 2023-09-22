@@ -44,7 +44,7 @@ Before you begin, ensure you have met the following requirements:
 3. Create a PostgreSQL database for the application.  
 4. Update the connection string in appsettings.json to point to your PostgreSQL database:
   "ConnectionStrings": {
-   "TodoDb": "Server=127.0.0.1;Port=5432;Database=tododb;User Id=postgres;Password=dovakinis3"
+   "TodoDb": "Server=localhost;Port=5432;Database=todo;User Id=yourusername;Password=yourpassword;"
   }
 5. Run the database scrips in DataBase folder to create the necessary tables:
    ? 1. run DateBaseCreate
