@@ -1,44 +1,59 @@
+using EFDataAccessLibrary;
+using EFDataAccessLibrary.DataAccess;
+using EFDataAccessLibrary.Models;
+using Microsoft.EntityFrameworkCore;
+
 namespace todo_api.Repos;
 
 public class TaskRepository : ITaskRepository
 {
-    private readonly List<Task> _tasks = new ();
-    private int _id;
-    public IEnumerable<Task> GetTasks()
+    private readonly TasksContext _tasksContext;
+
+    public TaskRepository(TasksContext tasksContext)
     {
-        return _tasks;
+        _tasksContext = tasksContext;
     }
 
-    public Task AddTask(string name)
+    public IEnumerable<Todo> GetTodo()
     {
-        var task = new Task()
+        return _tasksContext.Tasks.ToList();
+    }
+
+    public Todo AddTodo(string name)
+    {
+        var task = new Todo()
         {
-            Id = _id + 1,
             Completed = false,
             Name = name
         };
-        _id++;
-        _tasks.Add(task);
-        return task;
+
+        var taskFromDb = _tasksContext.Tasks.Add(task);
+        _tasksContext.SaveChanges();
+        return taskFromDb.Entity;
     }
 
-    public void DeleteTask(int id)
+    public bool DeleteTodo(int id)
     {
-        var deletedTask = _tasks.FirstOrDefault(t => t.Id == id);
-        if (deletedTask != null)
-            _tasks.Remove(deletedTask);
-        
+        var task = _tasksContext.Tasks.FirstOrDefault(t => t.Id == id);
+        if (task is null)
+            return false;
+        _tasksContext.Tasks.Remove(task);
+        _tasksContext.SaveChanges();
+        return true;
     }
 
-    public (bool isUpdated, Task? taskToUpdate) UpdateTask(Task task)
+    public (bool isUpdated, Todo? updatedTodo) UpdateTodo(Todo todo)
     {
         var isUpdated = false;
-        var taskToUpdate = _tasks.FirstOrDefault(t => t.Id == task.Id);
-        if (taskToUpdate == null)
-            return (isUpdated, taskToUpdate);
+        var todoToUpdate = _tasksContext.Tasks.FirstOrDefault(t => t.Id == todo.Id);
+        if (todoToUpdate is null)
+            return (isUpdated, todoToUpdate);
+
+        todoToUpdate.Name = todo.Name;
+        todoToUpdate.Completed = todo.Completed;
         isUpdated = true;
-        taskToUpdate.Name = task.Name;
-        taskToUpdate.Completed = task.Completed;
-        return (isUpdated, taskToUpdate);
+
+        _tasksContext.SaveChanges();
+        return (isUpdated, todoToUpdate);
     }
 }
