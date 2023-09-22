@@ -1,4 +1,4 @@
-# To-Do List App
+# ToDoProject
 
 A simple To-Do List application with a .NET Core Web API backend and a React frontend.
 
