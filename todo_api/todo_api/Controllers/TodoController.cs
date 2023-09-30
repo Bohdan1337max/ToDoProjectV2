@@ -10,17 +10,17 @@ namespace todo_api.Controllers;
 [Route("TodoController")]
 public class TodoController : ControllerBase
 {
-    private readonly ITaskRepository _taskRepository;
+    private readonly ITodoRepository _todoRepository;
 
-    public TodoController(ITaskRepository taskRepository)
+    public TodoController(ITodoRepository todoRepository)
     {
-        _taskRepository = taskRepository;
+        _todoRepository = todoRepository;
     }
 
     [HttpGet]
     public IEnumerable<Todo> GetTodo()
     {
-        return _taskRepository.GetTodo();
+        return _todoRepository.GetTodo();
     }
 
     [HttpPost]
@@ -28,8 +28,7 @@ public class TodoController : ControllerBase
     {
         if (name.Trim() == "")
             return BadRequest("Not valid task text");
-        var task = _taskRepository.AddTodo(name);
-
+        var task = _todoRepository.AddTodo(name);
 
         return Ok(task);
     }
@@ -37,7 +36,7 @@ public class TodoController : ControllerBase
     [HttpDelete]
     public IActionResult DeleteTodo([FromBody] int id)
     {
-        if (!_taskRepository.DeleteTodo(id))
+        if (!_todoRepository.DeleteTodo(id))
             return NotFound();
         return Ok();
     }
@@ -45,7 +44,7 @@ public class TodoController : ControllerBase
     [HttpPut]
     public IActionResult UpdateTask(Todo todo)
     {
-        var (isUpdated, updatedTask) = _taskRepository.UpdateTodo(todo);
+        var (isUpdated, updatedTask) = _todoRepository.UpdateTodo(todo);
         if (!isUpdated)
             return NotFound();
         return Ok(updatedTask);

@@ -3,7 +3,7 @@ using EFDataAccessLibrary.Models;
 
 namespace todo_api.Repos;
 
-public interface ITaskRepository
+public interface ITodoRepository
 {
     IEnumerable<Todo> GetTodo();
     Todo AddTodo(string name);

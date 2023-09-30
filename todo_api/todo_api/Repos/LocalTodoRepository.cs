@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace todo_api.Repos;
 
-public class LocalTaskRepository : ITaskRepository
+public class LocalTodoRepository : ITodoRepository
 {
     private readonly List<Todo> _tasks = new();
     private int _id;
@@ -14,7 +14,7 @@ public class LocalTaskRepository : ITaskRepository
     {
         return _tasks;
     }
-    
+
     public Todo AddTodo(string name)
     {
         var task = new Todo()

@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from "react";
 import EnterBar from "./EnterBar";
 import Todo from "./Todo";
+import GroupsList from "./GroupsList"
 
 function TodoList() {
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [isPosted, setIsPosted] = useState(false);
     const [todos, setTodos] = useState([]);
+    const [todoGroups, setTodoGroups] = useState([]);
 
 
-    const FetchData = () => {
+    const FetchTodos = () => {
         fetch("/TodoController")
             .then((res) => res.json())
             .then(
@@ -23,14 +25,28 @@ function TodoList() {
                 }
             );
     }
+    const FetchTodoGroups = () => {
+        fetch("/TodoGroupController").then((res) => res.json()).then(
+            (result) => {
+                setIsLoaded(true);
+                setTodoGroups(result);
+            },
+            (error) => {
+                setIsLoaded(false);
+                setError(error);
+            }
+        )
+
+    }
 
     useEffect(() => {
-        FetchData();
-    }, []); // The empty dependency array ensures this runs only once on mount
+        FetchTodos();
+        FetchTodoGroups();
+    }, []);
 
     useEffect(() => {
         if (isPosted) {
-            FetchData();
+            FetchTodos();
             setIsPosted(false)
         }
     }, [isPosted]);
@@ -48,6 +64,7 @@ function TodoList() {
                     <EnterBar isPosted={isPosted} setIsPosted={setIsPosted}  />
                 </header>
                 <main>
+                    <GroupsList todoGroups={todoGroups} setTodoGroups={setTodoGroups}/>
                     <ul>
                         {todos.map((todo) => (
                             <Todo key={todo.id} todo={todo} setTodos = {setTodos} todos = {todos}/>

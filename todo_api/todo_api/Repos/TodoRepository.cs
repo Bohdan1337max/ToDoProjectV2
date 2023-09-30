@@ -5,18 +5,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace todo_api.Repos;
 
-public class TaskRepository : ITaskRepository
+public class TodoRepository : ITodoRepository
 {
-    private readonly TasksContext _tasksContext;
+    private readonly TodosContext _todosContext;
 
-    public TaskRepository(TasksContext tasksContext)
+    public TodoRepository(TodosContext todosContext)
     {
-        _tasksContext = tasksContext;
+        _todosContext = todosContext;
     }
 
     public IEnumerable<Todo> GetTodo()
     {
-        return _tasksContext.Tasks.ToList();
+        return _todosContext.Todos.ToList();
     }
 
     public Todo AddTodo(string name)
@@ -27,25 +27,25 @@ public class TaskRepository : ITaskRepository
             Name = name
         };
 
-        var taskFromDb = _tasksContext.Tasks.Add(task);
-        _tasksContext.SaveChanges();
+        var taskFromDb = _todosContext.Todos.Add(task);
+        _todosContext.SaveChanges();
         return taskFromDb.Entity;
     }
 
     public bool DeleteTodo(int id)
     {
-        var task = _tasksContext.Tasks.FirstOrDefault(t => t.Id == id);
+        var task = _todosContext.Todos.FirstOrDefault(t => t.Id == id);
         if (task is null)
             return false;
-        _tasksContext.Tasks.Remove(task);
-        _tasksContext.SaveChanges();
+        _todosContext.Todos.Remove(task);
+        _todosContext.SaveChanges();
         return true;
     }
 
     public (bool isUpdated, Todo? updatedTodo) UpdateTodo(Todo todo)
     {
         var isUpdated = false;
-        var todoToUpdate = _tasksContext.Tasks.FirstOrDefault(t => t.Id == todo.Id);
+        var todoToUpdate = _todosContext.Todos.FirstOrDefault(t => t.Id == todo.Id);
         if (todoToUpdate is null)
             return (isUpdated, todoToUpdate);
 
@@ -53,7 +53,7 @@ public class TaskRepository : ITaskRepository
         todoToUpdate.Completed = todo.Completed;
         isUpdated = true;
 
-        _tasksContext.SaveChanges();
+        _todosContext.SaveChanges();
         return (isUpdated, todoToUpdate);
     }
 }
