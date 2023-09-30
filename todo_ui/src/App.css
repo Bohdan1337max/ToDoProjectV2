@@ -127,3 +127,48 @@ header {
     width: 100%;
 }
 
+/* Add styles for the left sidebar */
+.left-sidebar {
+    border-right: 2px solid black;
+    width: 250px; /* Set the width of the left sidebar */
+    height: min-content;
+    background-color: #ffffff; /* Background color */
+    color: #000000; /* Text color */
+    padding: 20px; /* Padding inside the sidebar */
+}
+
+/* Style for the heading inside the sidebar */
+.left-sidebar h2 {
+    text-align: center;
+    font-size: 18px; /* Font size for the heading */
+    margin-bottom: 10px; /* Margin below the heading */
+}
+
+/* Style for the list of todo groups */
+.left-sidebar ul {
+    list-style-type: none; /* Remove list bullets */
+    padding: 0; /* Remove default list padding */
+}
+
+/* Style for list items in the sidebar */
+.left-sidebar li {
+    margin-bottom: 8px; /* Spacing between list items */
+}
+
+/* Style for list item links */
+.left-sidebar li a {
+    text-decoration: none; /* Remove underlines from links */
+    color: #fff; /* Text color for links */
+    transition: color 0.3s; /* Smooth color transition on hover */
+}
+
+/* Hover effect for list item links */
+.left-sidebar li a:hover {
+    color: #0074d9; /* Change color on hover */
+}
+
+/*.TodoGroup{*/
+/*    text-decoration: none; !* Remove underlines from links *!*/
+/*    color: #000000; !* Text color for links *!*/
+/*    transition: color 0.3s;*/
+/*}*/
