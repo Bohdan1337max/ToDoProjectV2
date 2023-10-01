@@ -7,7 +7,7 @@ using todo_api.Repos;
 namespace todo_api.Controllers;
 
 [ApiController]
-[Route("TodoController")]
+[Route("todo")]
 public class TodoController : ControllerBase
 {
     private readonly ITodoRepository _todoRepository;
@@ -34,7 +34,8 @@ public class TodoController : ControllerBase
     }
 
     [HttpDelete]
-    public IActionResult DeleteTodo([FromBody] int id)
+    [Route("{id:int}")]
+    public IActionResult DeleteTodo([FromRoute] int id)
     {
         if (!_todoRepository.DeleteTodo(id))
             return NotFound();

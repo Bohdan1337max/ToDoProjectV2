@@ -40,4 +40,14 @@ public class TodoGroupRepository : ITodoGroupRepository
         _todosContext.SaveChanges();
         return true;
     }
+
+    public bool DeleteTodoGroup(int id)
+    {
+        var todoGroup = _todosContext.TodoGroups.FirstOrDefault(t => t.Id == id);
+        if (todoGroup is null)
+            return false;
+        _todosContext.TodoGroups.Remove(todoGroup);
+        _todosContext.SaveChanges();
+        return true;
+    }
 }

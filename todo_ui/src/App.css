@@ -52,9 +52,9 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding: 5px 10px;
     max-width: 70%;
     margin: 50px auto 0;
-
 }
 
 .completed {
@@ -63,11 +63,9 @@ header {
 }
 .task-text {
     max-width: 80%;
-    margin-left: 10px;
     font-family: Verdana, sans-serif;
     align-self: center;
     font-size: 20px;
-    padding: 10px;
     overflow: hidden;
 }
 
@@ -92,16 +90,23 @@ header {
 }
 .delete-button {
     margin-right: 5px;
-    background-color: white; /* Red background color */
     color: #fff; /* White text color */
     border: none; /* Remove the button border */
     padding: 10px 20px; /* Add padding to the button */ /* Rounded corners */
     cursor: pointer; /* Change cursor on hover */
 
 }
+
+.delete-group-button{
+    margin-right: 3px;
+    margin-top: 2px;
+    color: #fff; /* White text color */
+    border: none; /* Remove the button border */
+    padding: 0px 2px; /* Add padding to the button */ /* Rounded corners */
+    cursor: pointer; /* Change cursor on hover */
+}
 .delete-img {
     cursor: pointer;
-
 }
 .edit-button {
     margin-right: 5px;
@@ -130,11 +135,14 @@ header {
 /* Add styles for the left sidebar */
 .left-sidebar {
     border-right: 2px solid black;
-    width: 250px; /* Set the width of the left sidebar */
+    width: 10%; /* Set the width of the left sidebar */
     height: min-content;
     background-color: #ffffff; /* Background color */
     color: #000000; /* Text color */
     padding: 20px; /* Padding inside the sidebar */
+    position: fixed;
+    left: 0;
+    overflow-x: hidden;
 }
 
 /* Style for the heading inside the sidebar */
@@ -150,25 +158,19 @@ header {
     padding: 0; /* Remove default list padding */
 }
 
-/* Style for list items in the sidebar */
-.left-sidebar li {
-    margin-bottom: 8px; /* Spacing between list items */
+
+.todo-group{
+    border: 1px solid black;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 5px auto 0;
 }
 
-/* Style for list item links */
-.left-sidebar li a {
-    text-decoration: none; /* Remove underlines from links */
-    color: #fff; /* Text color for links */
-    transition: color 0.3s; /* Smooth color transition on hover */
-}
+.todo-group-text{
+    text-align: center;
+    cursor: pointer;
+    margin-left: 5px;
 
-/* Hover effect for list item links */
-.left-sidebar li a:hover {
-    color: #0074d9; /* Change color on hover */
 }
-
-/*.TodoGroup{*/
-/*    text-decoration: none; !* Remove underlines from links *!*/
-/*    color: #000000; !* Text color for links *!*/
-/*    transition: color 0.3s;*/
-/*}*/

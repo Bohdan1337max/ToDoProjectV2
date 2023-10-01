@@ -12,7 +12,7 @@ function TodoList() {
 
 
     const FetchTodos = () => {
-        fetch("/TodoController")
+        fetch("/todo")
             .then((res) => res.json())
             .then(
                 (result) => {
@@ -26,7 +26,7 @@ function TodoList() {
             );
     }
     const FetchTodoGroups = () => {
-        fetch("/TodoGroupController").then((res) => res.json()).then(
+        fetch("/group").then((res) => res.json()).then(
             (result) => {
                 setIsLoaded(true);
                 setTodoGroups(result);
