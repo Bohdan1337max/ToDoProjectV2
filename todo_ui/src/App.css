@@ -136,13 +136,15 @@ header {
 .left-sidebar {
     border-right: 2px solid black;
     width: 10%; /* Set the width of the left sidebar */
-    height: min-content;
     background-color: #ffffff; /* Background color */
     color: #000000; /* Text color */
     padding: 20px; /* Padding inside the sidebar */
     position: fixed;
     left: 0;
     overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 /* Style for the heading inside the sidebar */
@@ -150,22 +152,25 @@ header {
     text-align: center;
     font-size: 18px; /* Font size for the heading */
     margin-bottom: 10px; /* Margin below the heading */
+    margin-top: 0; /* Remove default top margin */
 }
-
-/* Style for the list of todo groups */
-.left-sidebar ul {
-    list-style-type: none; /* Remove list bullets */
-    padding: 0; /* Remove default list padding */
-}
-
 
 .todo-group{
     border: 1px solid black;
     border-radius: 15px;
     display: flex;
     align-items: center;
+    flex-direction: column;
     justify-content: space-between;
     margin: 5px auto 0;
+}
+
+.create-group-button {
+    color: green;
+    cursor: pointer;
+    position: absolute; /* Set the position of the button to absolute */
+    top: 10px; /* Adjust the top distance as needed */
+    right: 10px; /* Adjust the right distance as needed */
 }
 
 .todo-group-text{

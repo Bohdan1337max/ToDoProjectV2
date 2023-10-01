@@ -1,5 +1,6 @@
 import React, {useState} from "react";
-import {MdDeleteForever} from "react-icons/md";
+import {HiOutlineTrash} from "react-icons/hi";
+import todoGroup from "./TodoGroup";
 
 function Todo({todo, setTodos}) {
     const [isEdited, setIsEdited] = useState(false);
@@ -8,10 +9,10 @@ function Todo({todo, setTodos}) {
 
     function deleteTask() {
         const requestOptions = {
-            method: "DELETE", headers: {"Content-Type": "application/json"}, body: JSON.stringify(todo.id)
+            method: "DELETE", headers: {"Content-Type": "application/json"}
         };
 
-        fetch("/TodoController", requestOptions).then((response) => {
+        fetch(`/todo/${todo.id}`, requestOptions).then((response) => {
             if (!response.ok) {
                 throw new Error("Failed to delete task");
             }
@@ -25,7 +26,7 @@ function Todo({todo, setTodos}) {
             body: JSON.stringify({...todo, name: updatedName}),
         };
 
-        fetch(`/TodoController`, requestOptions)
+        fetch(`/todo`, requestOptions)
             .then((response) => {
                 if (!response.ok) {
                     throw new Error("Failed to update task");
@@ -43,7 +44,7 @@ function Todo({todo, setTodos}) {
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({...todo, completed: !isCompleted}),
         };
-        fetch(`/TodoController`, requestOptions).then((response) => {
+        fetch(`/todo`, requestOptions).then((response) => {
             if (!response.ok) {
                 throw new Error("Failed to update task");
             }
@@ -80,7 +81,7 @@ function Todo({todo, setTodos}) {
             <div className={"complete-button"}
                  onClick={completeTask}>{isCompleted ? "Uncomplete" : "Complete"}</div>
             <div className={"delete-img"} onClick={deleteTask}>
-                <MdDeleteForever size={"30"} color={"red"}/>
+                <HiOutlineTrash size={"30"} color={"red"}/>
             </div>
         </div>
     </div>);

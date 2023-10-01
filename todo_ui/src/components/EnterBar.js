@@ -15,7 +15,7 @@ const EnterBar = ({isPosted, setIsPosted}) => {
             alert("Task can't be empty")
             return;
         }
-        fetch("/TodoController", requestOptions).then((response) => {
+        fetch("/todo", requestOptions).then((response) => {
             if (!response.ok) {
                 throw new Error("Failed to add task");
             }
