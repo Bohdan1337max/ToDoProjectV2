@@ -31,14 +31,14 @@ Before you begin, ensure you have met the following requirements:
 - [.NET Core SDK](https://dotnet.microsoft.com/download/dotnet)
 - [Node.js](https://nodejs.org/)
 - [PostgreSQL](https://www.postgresql.org/) database server
-- [Visual Studio Code](https://code.visualstudio.com/) or your preferred code editor
+- [Visual Studio Code](https://code.visualstudio.com/)
 
 ## Getting Started
 
 ### Backend Setup
 
 1. Clone the repository:
-  git clone https://github.com/Bohdan1337max/ToDoProjectV2
+```git clone https://github.com/Bohdan1337max/ToDoProjectV2```
 2. Navigate to the backend directory:
   cd todo_api
 3. Create a PostgreSQL database for the application.  
