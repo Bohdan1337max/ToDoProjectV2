@@ -38,9 +38,9 @@ public class TodoGroupController : ControllerBase
     }
 
     [HttpPut]
-    public IActionResult AddTodoToGroup(int groupId, int todoId)
+    public IActionResult AddTodoToGroup(int groupId, int[] todosId)
     {
-        var isTodoAddedToGroup = _todoGroupRepository.AddTodoToGroup(groupId, todoId);
+        var isTodoAddedToGroup = _todoGroupRepository.AddTodoToGroup(groupId, todosId);
         if (!isTodoAddedToGroup)
             return BadRequest("Error with todo added");
         return Ok();

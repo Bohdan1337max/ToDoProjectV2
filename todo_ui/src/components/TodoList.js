@@ -4,12 +4,13 @@ import Todo from "./Todo";
 import GroupsList from "./GroupsList"
 
 function TodoList() {
+
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [isPosted, setIsPosted] = useState(false);
     const [todos, setTodos] = useState([]);
     const [todoGroups, setTodoGroups] = useState([]);
-    const [isTodoInGroup, setIsTodoInGroup] = useState(false);
+    const [todosInGroup, setTodosInGroup] = useState([]);
     const [isAddedToGroup, setIsAddedToGroup] = useState(false);
 
 
@@ -72,8 +73,8 @@ function TodoList() {
                     <ul>
                         {todos.map((todo) => (
                             <Todo key={todo.id} todo={todo} setTodos={setTodos} todos={todos}
-                                  isAddedToGroup={isAddedToGroup} isTodoInGroup={isTodoInGroup}
-                                  setIsTodosInGroup={setIsTodoInGroup}/>
+                                  isAddedToGroup={isAddedToGroup} todosInGroup={todosInGroup}
+                                  setTodosInGroup={setTodosInGroup}/>
                         ))}
                     </ul>
                 </main>

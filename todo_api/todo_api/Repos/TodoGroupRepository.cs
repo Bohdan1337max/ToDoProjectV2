@@ -29,15 +29,18 @@ public class TodoGroupRepository : ITodoGroupRepository
         return _todosContext.TodoGroups.ToList();
     }
 
-    public bool AddTodoToGroup(int groupId, int todoId)
+    public bool AddTodoToGroup(int groupId, int[] todoIds)
     {
         var todoGroupFromDb = _todosContext.TodoGroups.FirstOrDefault(g => g.Id == groupId);
         if (todoGroupFromDb is null)
             return false;
-        var todoFromDb = _todosContext.Todos.FirstOrDefault(t => t.Id == todoId);
-        if (todoFromDb is null)
-            return false;
-        todoFromDb.TodoGroupId = todoGroupFromDb.Id;
+        foreach (var todoId in todoIds)
+        {
+            var todoFromDb = _todosContext.Todos.FirstOrDefault(t => t.Id == todoId);
+            if (todoFromDb is null)
+                return false;
+            todoFromDb.TodoGroupId = todoGroupFromDb.Id;
+        }
         _todosContext.SaveChanges();
         return true;
     }

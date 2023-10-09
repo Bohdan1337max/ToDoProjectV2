@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from "react";
-import {HiOutlineTrash} from "react-icons/hi";
+import {HiOutlineTrash, HiCheck, HiX} from "react-icons/hi";
 import {IoMdAdd} from "react-icons/io";
 import Todo from "./Todo";
 
-function TodoGroup({todoGroup, setTodoGroups,isAddedToGroup,setIsAddedToGroup}) {
+function TodoGroup({todoGroup, setTodoGroups, isAddedToGroup, setIsAddedToGroup}) {
 
     function deleteTask() {
         const requestOptions = {
@@ -16,9 +16,12 @@ function TodoGroup({todoGroup, setTodoGroups,isAddedToGroup,setIsAddedToGroup}) 
         }).then(() => setTodoGroups(prev => prev.filter(el => el.id !== todoGroup.id)))
     }
 
-    const AddTodoToGroupHandler = () =>
-    {
+    const addTodoToGroupHandler = () => {
         setIsAddedToGroup(!isAddedToGroup);
+    }
+
+    const setCheckedTodos = () => {
+
     }
 
     return (
@@ -27,9 +30,11 @@ function TodoGroup({todoGroup, setTodoGroups,isAddedToGroup,setIsAddedToGroup}) 
                 {todoGroup.name}
             </div>
 
-            <div className={"add-todo-to-group-button"}>
-                <IoMdAdd onClick={AddTodoToGroupHandler}/>
-            </div>
+            {isAddedToGroup ? <div><HiCheck onClick={setCheckedTodos}/> <HiX onClick={addTodoToGroupHandler}/></div> :
+                <div className={"add-todo-to-group-button"}>
+                    <IoMdAdd onClick={addTodoToGroupHandler}/>
+                </div>}
+
             <div className={"delete-group-button"}>
                 <HiOutlineTrash size={"20"} color={"red"} onClick={deleteTask}/>
             </div>
