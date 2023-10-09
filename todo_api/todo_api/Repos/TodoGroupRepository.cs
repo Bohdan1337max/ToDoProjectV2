@@ -1,5 +1,6 @@
 using EFDataAccessLibrary.DataAccess;
 using EFDataAccessLibrary.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace todo_api.Repos;
 
@@ -12,7 +13,7 @@ public class TodoGroupRepository : ITodoGroupRepository
         _todosContext = todosContext;
     }
 
-    public TodoGroup CreateTodoGroup(string name)
+    public TodoGroup CreateTodoGroup([FromBody] string name)
     {
         var todoGroup = new TodoGroup()
         {

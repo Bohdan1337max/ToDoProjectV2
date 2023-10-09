@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {HiOutlineTrash} from "react-icons/hi";
 import todoGroup from "./TodoGroup";
 
-function Todo({todo, setTodos}) {
+function Todo({todo, setTodos,isAddedToGroup,isTodoInGroup,setIsTodosInGroup}) {
     const [isEdited, setIsEdited] = useState(false);
     const [updatedName, setUpdatedName] = useState(todo.name);
     const [isCompleted, setIsCompleted] = useState(todo.completed);
@@ -71,15 +71,22 @@ function Todo({todo, setTodos}) {
         setIsEdited(!isEdited);
     };
 
+    const addToGroupHandle = () => {
+      setIsTodosInGroup(!isTodoInGroup)
+            console.log(isTodoInGroup,todo.id)
+    }
 
     return (<div className={`post ${isCompleted ? "completed" : ""}`}>
         {isEdited ?
             <textarea className={"edit-input"} type={"text"} defaultValue={todo.name} onChange={handleChange}/> :
             <div className={"task-text"}>{todo.name}</div>}
         <div className={"edit-buttons"} role={"group"}>
+            <div> {isAddedToGroup ? <input type={"checkbox"} onChange={addToGroupHandle}/> : "" }</div>
+
             <button className={"edit-button"} onClick={editButtonHandle}>{editButtonLabel}</button>
             <div className={"complete-button"}
                  onClick={completeTask}>{isCompleted ? "Uncomplete" : "Complete"}</div>
+
             <div className={"delete-img"} onClick={deleteTask}>
                 <HiOutlineTrash size={"30"} color={"red"}/>
             </div>

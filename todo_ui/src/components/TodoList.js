@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
 import EnterBar from "./EnterBar";
 import Todo from "./Todo";
 import GroupsList from "./GroupsList"
@@ -9,6 +9,8 @@ function TodoList() {
     const [isPosted, setIsPosted] = useState(false);
     const [todos, setTodos] = useState([]);
     const [todoGroups, setTodoGroups] = useState([]);
+    const [isTodoInGroup, setIsTodoInGroup] = useState(false);
+    const [isAddedToGroup, setIsAddedToGroup] = useState(false);
 
 
     const FetchTodos = () => {
@@ -47,6 +49,7 @@ function TodoList() {
     useEffect(() => {
         if (isPosted) {
             FetchTodos();
+            FetchTodoGroups();
             setIsPosted(false)
         }
     }, [isPosted]);
@@ -61,13 +64,16 @@ function TodoList() {
             <div>
                 <header>
                     <h1>Todo LIST</h1>
-                    <EnterBar isPosted={isPosted} setIsPosted={setIsPosted}  />
+                    <EnterBar isPosted={isPosted} setIsPosted={setIsPosted}/>
                 </header>
                 <main>
-                    <GroupsList todoGroups={todoGroups} setTodoGroups={setTodoGroups}/>
+                    <GroupsList todoGroups={todoGroups} setTodoGroups={setTodoGroups} setIsPosted={setIsPosted}
+                                isAddedToGroup={isAddedToGroup} setIsAddedToGroup={setIsAddedToGroup}/>
                     <ul>
                         {todos.map((todo) => (
-                            <Todo key={todo.id} todo={todo} setTodos = {setTodos} todos = {todos}/>
+                            <Todo key={todo.id} todo={todo} setTodos={setTodos} todos={todos}
+                                  isAddedToGroup={isAddedToGroup} isTodoInGroup={isTodoInGroup}
+                                  setIsTodosInGroup={setIsTodoInGroup}/>
                         ))}
                     </ul>
                 </main>

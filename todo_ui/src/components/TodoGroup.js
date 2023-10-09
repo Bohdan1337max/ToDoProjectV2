@@ -1,7 +1,9 @@
 import React, {useState, useEffect} from "react";
 import {HiOutlineTrash} from "react-icons/hi";
+import {IoMdAdd} from "react-icons/io";
+import Todo from "./Todo";
 
-function TodoGroup({todoGroup,setTodoGroups}) {
+function TodoGroup({todoGroup, setTodoGroups,isAddedToGroup,setIsAddedToGroup}) {
 
     function deleteTask() {
         const requestOptions = {
@@ -14,13 +16,27 @@ function TodoGroup({todoGroup,setTodoGroups}) {
         }).then(() => setTodoGroups(prev => prev.filter(el => el.id !== todoGroup.id)))
     }
 
-    return (<li className={"todo-group"}>
+    const AddTodoToGroupHandler = () =>
+    {
+        setIsAddedToGroup(!isAddedToGroup);
+    }
+
+    return (
+        <div className={"todo-group"}>
             <div className={'todo-group-text'}>
                 {todoGroup.name}
             </div>
-            <div className={"delete-group-button"}><HiOutlineTrash size={"20"} color={"red"}/></div>
-        </li>
+
+            <div className={"add-todo-to-group-button"}>
+                <IoMdAdd onClick={AddTodoToGroupHandler}/>
+            </div>
+            <div className={"delete-group-button"}>
+                <HiOutlineTrash size={"20"} color={"red"} onClick={deleteTask}/>
+            </div>
+
+        </div>
     )
+
 }
 
 export default TodoGroup;
