@@ -8,4 +8,5 @@ public interface ITodoGroupRepository
     public IEnumerable<TodoGroup> GetTodoGroups();
     public bool AddTodoToGroup(int groupId,int[] todoIds);
     public bool DeleteTodoGroup(int id);
+    public IEnumerable<Todo> GetTodosInGroup(int groupId);
 }

@@ -5,7 +5,7 @@ import {VscEdit} from "react-icons/vsc";
 import {IoMdAdd} from "react-icons/io";
 import TodoGroup from "./TodoGroup";
 
-function GroupsList({todoGroups, setTodoGroups, setIsPosted, isAddedToGroup, setIsAddedToGroup}) {
+function GroupsList({todoGroups, setTodoGroups, setIsPosted, setAddingToGroupProvider, todosInGroup, setTodosInGroupForShow}) {
     const [isEnter, setIsEnter] = useState(false);
     const [groupName, setGroupName] = useState('');
 
@@ -50,9 +50,13 @@ function GroupsList({todoGroups, setTodoGroups, setIsPosted, isAddedToGroup, set
             <li>
                 {todoGroups.map((todoGroup) => (
                     <TodoGroup key={todoGroup.id} todoGroup={todoGroup} setTodoGroups={setTodoGroups}
-                               isAddedToGroup={isAddedToGroup} setIsAddedToGroup={setIsAddedToGroup}/>
+                               todosInGroup={todosInGroup}
+                               setAddingToGroupProvider={setAddingToGroupProvider}
+                               setTodosInGroupForShow = {setTodosInGroupForShow}/>
                 ))}
             </li>
+
+
         </div>
     );
 }

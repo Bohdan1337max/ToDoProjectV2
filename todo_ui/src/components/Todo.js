@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {HiOutlineTrash} from "react-icons/hi";
 import todoGroup from "./TodoGroup";
 
-function Todo({todo, setTodos, isAddedToGroup, todosInGroup, setTodosInGroup}) {
+function Todo({todo, setTodos, addingToGroupProvider, todosInGroup, setTodosInGroup}) {
     const [isEdited, setIsEdited] = useState (false);
     const [checked, setChecked] = useState(false);
     const [updatedName, setUpdatedName] = useState(todo.name);
@@ -73,28 +73,31 @@ function Todo({todo, setTodos, isAddedToGroup, todosInGroup, setTodosInGroup}) {
     };
 
     const checkBoxChangeHandle = () => {
+
         const currentCheckBoxValue = !checked;
 
         if(currentCheckBoxValue)
         {
             addToGroup()
         }
-        removeFromGroup()
-
+        else {
+            removeFromGroup()
+        }
         setChecked(currentCheckBoxValue)
     }
 
 
     const removeFromGroup = () => {
         console.log(todosInGroup)
-        setTodosInGroup(todosInGroup.filter(t => t.id !== todosInGroup.id))
+        const updatedTodosInGroup = todosInGroup.filter((id) => id !== todo.id);
+        setTodosInGroup(updatedTodosInGroup);
         console.log(todosInGroup)
-    }
+    };
     const addToGroup = () => {
         console.log(todosInGroup)
         if (todosInGroup.includes(todo.id)) {
-            console.error(`Todo with ID ${todo.id} is already in the group.`)
-            return
+            console.error(`Todo with ID ${todo.id} is already in the group.`);
+            return;
         }
         const updatedTodosInGroup = [...todosInGroup, todo.id];
         setTodosInGroup(updatedTodosInGroup);
@@ -106,7 +109,7 @@ function Todo({todo, setTodos, isAddedToGroup, todosInGroup, setTodosInGroup}) {
             <textarea className={"edit-input"} type={"text"} defaultValue={todo.name} onChange={handleChange}/> :
             <div className={"task-text"}>{todo.name}</div>}
         <div className={"edit-buttons"} role={"group"}>
-            <div> {isAddedToGroup ? <input type={"checkbox"} value={checked} onChange={checkBoxChangeHandle} /> : ""}</div>
+            <div> {addingToGroupProvider ? <input type={"checkbox"} value={checked} onChange={checkBoxChangeHandle} /> : ""}</div>
 
             <button className={"edit-button"} onClick={editButtonHandle}>{editButtonLabel}</button>
             <div className={"complete-button"}

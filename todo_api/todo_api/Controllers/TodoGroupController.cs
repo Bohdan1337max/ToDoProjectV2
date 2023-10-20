@@ -21,6 +21,13 @@ public class TodoGroupController : ControllerBase
         return _todoGroupRepository.GetTodoGroups();
     }
 
+    [HttpGet]
+    [Route("todosInGroup")]
+    public IEnumerable<Todo> GetTodosInGroup(int groupId)
+    {
+        return _todoGroupRepository.GetTodosInGroup(groupId);
+    }
+
     [HttpPost]
     public IActionResult CreateTodoGroup([FromBody] string name)
     {
@@ -38,9 +45,10 @@ public class TodoGroupController : ControllerBase
     }
 
     [HttpPut]
-    public IActionResult AddTodoToGroup(int groupId, int[] todosId)
+    [Route("{groupId:int}")]
+    public IActionResult AddTodoToGroup([FromRoute] int groupId, [FromBody] TodoIds todoIds)
     {
-        var isTodoAddedToGroup = _todoGroupRepository.AddTodoToGroup(groupId, todosId);
+        var isTodoAddedToGroup = _todoGroupRepository.AddTodoToGroup(groupId, todoIds.TodosInGroup);
         if (!isTodoAddedToGroup)
             return BadRequest("Error with todo added");
         return Ok();

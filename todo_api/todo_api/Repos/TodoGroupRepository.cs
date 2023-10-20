@@ -54,4 +54,9 @@ public class TodoGroupRepository : ITodoGroupRepository
         _todosContext.SaveChanges();
         return true;
     }
+
+    public IEnumerable<Todo> GetTodosInGroup(int groupId)
+    {
+        return _todosContext.Todos.Where(t => t.TodoGroupId == groupId);
+    }
 }

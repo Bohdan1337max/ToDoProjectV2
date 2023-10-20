@@ -43,7 +43,7 @@ public class TodoController : ControllerBase
     }
     
     [HttpPut]
-    public IActionResult UpdateTask(Todo todo)
+    public IActionResult UpdateTodo(Todo todo)
     {
         var (isUpdated, updatedTask) = _todoRepository.UpdateTodo(todo);
         if (!isUpdated)

@@ -11,7 +11,8 @@ function TodoList() {
     const [todos, setTodos] = useState([]);
     const [todoGroups, setTodoGroups] = useState([]);
     const [todosInGroup, setTodosInGroup] = useState([]);
-    const [isAddedToGroup, setIsAddedToGroup] = useState(false);
+    const [addingToGroupProvider, setAddingToGroupProvider] = useState(false);
+    const [todosInGroupForShow, setTodosInGroupForShow ] = useState([]);
 
 
     const FetchTodos = () => {
@@ -28,6 +29,8 @@ function TodoList() {
                 }
             );
     }
+
+
     const FetchTodoGroups = () => {
         fetch("/group").then((res) => res.json()).then(
             (result) => {
@@ -62,23 +65,14 @@ function TodoList() {
         return <div>Loading...</div>;
     } else if (isLoaded) {
         return (
-            <div>
-                <header>
-                    <h1>Todo LIST</h1>
-                    <EnterBar isPosted={isPosted} setIsPosted={setIsPosted}/>
-                </header>
-                <main>
-                    <GroupsList todoGroups={todoGroups} setTodoGroups={setTodoGroups} setIsPosted={setIsPosted}
-                                isAddedToGroup={isAddedToGroup} setIsAddedToGroup={setIsAddedToGroup}/>
+
                     <ul>
                         {todos.map((todo) => (
                             <Todo key={todo.id} todo={todo} setTodos={setTodos} todos={todos}
-                                  isAddedToGroup={isAddedToGroup} todosInGroup={todosInGroup}
-                                  setTodosInGroup={setTodosInGroup}/>
+                                  todosInGroup={todosInGroup}
+                                  setTodosInGroup={setTodosInGroup} addingToGroupProvider={addingToGroupProvider}/>
                         ))}
                     </ul>
-                </main>
-            </div>
         );
     }
 }
