@@ -1,18 +1,9 @@
 import React, {useState, useEffect} from "react";
-import EnterBar from "./EnterBar";
 import Todo from "./Todo";
-import GroupsList from "./GroupsList"
 
-function TodoList() {
-
-    const [error, setError] = useState(null);
-    const [isLoaded, setIsLoaded] = useState(false);
-    const [isPosted, setIsPosted] = useState(false);
+function TodoList({isLoaded,setIsLoaded, setError,isTodoPosted, setIsTodoPosted}) {
     const [todos, setTodos] = useState([]);
-    const [todoGroups, setTodoGroups] = useState([]);
     const [todosInGroup, setTodosInGroup] = useState([]);
-    const [addingToGroupProvider, setAddingToGroupProvider] = useState(false);
-    const [todosInGroupForShow, setTodosInGroupForShow ] = useState([]);
 
 
     const FetchTodos = () => {
@@ -30,51 +21,28 @@ function TodoList() {
             );
     }
 
-
-    const FetchTodoGroups = () => {
-        fetch("/group").then((res) => res.json()).then(
-            (result) => {
-                setIsLoaded(true);
-                setTodoGroups(result);
-            },
-            (error) => {
-                setIsLoaded(false);
-                setError(error);
-            }
-        )
-
-    }
-
     useEffect(() => {
         FetchTodos();
-        FetchTodoGroups();
     }, []);
 
+
     useEffect(() => {
-        if (isPosted) {
+        if (isTodoPosted) {
             FetchTodos();
-            FetchTodoGroups();
-            setIsPosted(false)
+            setIsTodoPosted(false)
         }
-    }, [isPosted]);
+    }, [isTodoPosted]);
 
-
-    if (error) {
-        return <div>Error: {error.message}</div>;
-    } else if (!isLoaded) {
-        return <div>Loading...</div>;
-    } else if (isLoaded) {
-        return (
-
-                    <ul>
-                        {todos.map((todo) => (
-                            <Todo key={todo.id} todo={todo} setTodos={setTodos} todos={todos}
-                                  todosInGroup={todosInGroup}
-                                  setTodosInGroup={setTodosInGroup} addingToGroupProvider={addingToGroupProvider}/>
-                        ))}
-                    </ul>
-        );
-    }
+    return (
+        <ul>
+            {todos.map((todo) => (
+                <Todo key={todo.id} todo={todo} setTodos={setTodos} todos={todos}
+                      todosInGroup={todosInGroup}
+                      setTodosInGroup={setTodosInGroup}/>
+            ))}
+        </ul>
+    );
 }
+
 
 export default TodoList;

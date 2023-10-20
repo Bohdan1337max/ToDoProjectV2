@@ -3,19 +3,19 @@ import {HiOutlineTrash, HiCheck, HiX} from "react-icons/hi";
 import {IoMdAdd} from "react-icons/io";
 
 function TodoGroup({todoGroup, setTodoGroups, setAddingToGroupProvider, todosInGroup , setTodosInGroupForShow}) {
-    const [isAddingToGroup, setIsAddingToGroup] = useState(false);
 
+    const [isAddingToGroup, setIsAddingToGroup] = useState(false);
     function deleteTask() {
         const requestOptions = {
             method: "DELETE", headers: {"Content-Type": "application/json"}
         };
         fetch(`/group/${todoGroup.id}`, requestOptions).then((response) => {
             if (!response.ok) {
-                throw new Error("Failed to delete task");
+                throw new Error("Failed to delete task group");
             }
         }).then(() => setTodoGroups(prev => prev.filter(el => el.id !== todoGroup.id)))
     }
-    const FetchTodosInGroup = () => {
+/*    const FetchTodosInGroup = () => {
         const requestOptions = {
             method: "GET", headers: {"Content-Type": "application/json"}
         };
@@ -24,7 +24,7 @@ function TodoGroup({todoGroup, setTodoGroups, setAddingToGroupProvider, todosInG
                 throw new Error("Failed to get Todos in Group");
             }
         }).then(setTodosInGroupForShow(response))
-    }
+    }*/
 
     const addTodoToGroupHandler = () => {
         const currentIsAddingToGroup = !isAddingToGroup;

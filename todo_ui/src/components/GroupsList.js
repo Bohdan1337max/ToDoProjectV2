@@ -5,10 +5,36 @@ import {VscEdit} from "react-icons/vsc";
 import {IoMdAdd} from "react-icons/io";
 import TodoGroup from "./TodoGroup";
 
-function GroupsList({todoGroups, setTodoGroups, setIsPosted, setAddingToGroupProvider, todosInGroup, setTodosInGroupForShow}) {
+function GroupsList({ setIsPosted, setIsLoaded,setError ,setAddingToGroupProvider, todosInGroup, setTodosInGroupForShow}) {
     const [isEnter, setIsEnter] = useState(false);
     const [groupName, setGroupName] = useState('');
+    const [todoGroups, setTodoGroups] = useState([]);
+    const [isGroupPosted, setIsGroupPosted] = useState(false);
 
+    const FetchTodoGroups = () => {
+        fetch("/group").then((res) => res.json()).then(
+            (result) => {
+                setIsLoaded(true);
+                setTodoGroups(result);
+            },
+            (error) => {
+                setIsLoaded(false);
+                setError(error);
+            }
+        )
+    }
+
+    useEffect(() => {
+        FetchTodoGroups();
+    }, []);
+
+
+    useEffect(() => {
+        if (isGroupPosted) {
+            FetchTodoGroups();
+            setIsGroupPosted(false)
+        }
+    }, [isGroupPosted]);
 
     const requestOptions = {
         method: "POST",
@@ -31,7 +57,7 @@ function GroupsList({todoGroups, setTodoGroups, setIsPosted, setAddingToGroupPro
             }
             console.log(response)
         })
-            .then(() => setIsPosted(true)).then(() => setGroupName("")).then(() => setIsEnter(!isEnter))
+            .then(() => setIsGroupPosted(true)).then(() => setGroupName("")).then(() => setIsEnter(!isEnter))
             .catch(error => console.log(error));
     }
 
