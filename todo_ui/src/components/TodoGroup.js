@@ -2,9 +2,18 @@ import React, {useState, useEffect} from "react";
 import {HiOutlineTrash, HiCheck, HiX} from "react-icons/hi";
 import {IoMdAdd} from "react-icons/io";
 
-function TodoGroup({todoGroup, setTodoGroups, setAddingToGroupProvider, todosInGroup , setTodosInGroupForShow}) {
+function TodoGroup({
+                       todoGroup,
+                       setTodoGroups,
+                       setAddingToGroupProvider,
+                       todosInGroup,
+                       setTodosInGroupForShow,
+                       isGroupShowing,
+                       setIsGroupShowing
+                   }) {
 
     const [isAddingToGroup, setIsAddingToGroup] = useState(false);
+
     function deleteTask() {
         const requestOptions = {
             method: "DELETE", headers: {"Content-Type": "application/json"}
@@ -15,18 +24,21 @@ function TodoGroup({todoGroup, setTodoGroups, setAddingToGroupProvider, todosInG
             }
         }).then(() => setTodoGroups(prev => prev.filter(el => el.id !== todoGroup.id)))
     }
-/*    const FetchTodosInGroup = () => {
+
+    const FetchTodosInGroup = () => {
         const requestOptions = {
             method: "GET", headers: {"Content-Type": "application/json"}
         };
-        fetch(`/group/todosInGroup/${todoGroup.id}`,requestOptions).then((response) => {
-            if(!response.ok) {
-                throw new Error("Failed to get Todos in Group");
+        fetch(`/group/todosInGroup/${todoGroup.id}`, requestOptions).then((res) => res.json()).then(
+            (result) => {
+                setTodosInGroupForShow(result);
             }
-        }).then(setTodosInGroupForShow(response))
-    }*/
+        ).then(isGroupShowing? " ": setIsGroupShowing(true))
+        console.log(isGroupShowing)
+    }
 
-    const addTodoToGroupHandler = () => {
+
+    const canselAddingToGroup = () => {
         const currentIsAddingToGroup = !isAddingToGroup;
         setIsAddingToGroup(currentIsAddingToGroup);
         setAddingToGroupProvider(currentIsAddingToGroup);
@@ -38,25 +50,25 @@ function TodoGroup({todoGroup, setTodoGroups, setAddingToGroupProvider, todosInG
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({todosInGroup})
         }
-        console.log(todosInGroup)
-        console.log(requestOptions)
+
         fetch(`/group/${todoGroup.id}`, requestOptions).then((response) => {
             if (!response.ok) {
                 throw new Error("Failed to put todos to group")
             }
-        })
+        }).then(canselAddingToGroup)
 
     }
 
     return (
         <div className={"todo-group"}>
-            <div className={'todo-group-text'}>
+            <div className={'todo-group-text'} onClick={FetchTodosInGroup}>
                 {todoGroup.name}
+
             </div>
 
-            {isAddingToGroup ? <div><HiCheck onClick={setCheckedTodos}/> <HiX onClick={addTodoToGroupHandler}/></div> :
+            {isAddingToGroup ? <div><HiCheck onClick={setCheckedTodos}/> <HiX onClick={canselAddingToGroup}/></div> :
                 <div className={"add-todo-to-group-button"}>
-                    <IoMdAdd onClick={addTodoToGroupHandler}/>
+                    <IoMdAdd onClick={canselAddingToGroup}/>
                 </div>}
 
             <div className={"delete-group-button"}>

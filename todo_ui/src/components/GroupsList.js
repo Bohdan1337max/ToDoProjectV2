@@ -1,11 +1,13 @@
 import React, {useState, useEffect} from "react";
-import EnterBar from "./EnterBar";
-import Todo from "./Todo";
 import {VscEdit} from "react-icons/vsc";
 import {IoMdAdd} from "react-icons/io";
 import TodoGroup from "./TodoGroup";
 
-function GroupsList({ setIsPosted, setIsLoaded,setError ,setAddingToGroupProvider, todosInGroup, setTodosInGroupForShow}) {
+function GroupsList({
+                        setError, setAddingToGroupProvider, todosInGroup, setTodosInGroupForShow, isGroupShowing,
+                        setIsGroupShowing
+                    }) {
+    const [isLoaded, setIsLoaded] = useState(false);
     const [isEnter, setIsEnter] = useState(false);
     const [groupName, setGroupName] = useState('');
     const [todoGroups, setTodoGroups] = useState([]);
@@ -55,7 +57,6 @@ function GroupsList({ setIsPosted, setIsLoaded,setError ,setAddingToGroupProvide
             if (!response.ok) {
                 throw new Error("Failed to add task");
             }
-            console.log(response)
         })
             .then(() => setIsGroupPosted(true)).then(() => setGroupName("")).then(() => setIsEnter(!isEnter))
             .catch(error => console.log(error));
@@ -78,7 +79,10 @@ function GroupsList({ setIsPosted, setIsLoaded,setError ,setAddingToGroupProvide
                     <TodoGroup key={todoGroup.id} todoGroup={todoGroup} setTodoGroups={setTodoGroups}
                                todosInGroup={todosInGroup}
                                setAddingToGroupProvider={setAddingToGroupProvider}
-                               setTodosInGroupForShow = {setTodosInGroupForShow}/>
+                               setTodosInGroupForShow={setTodosInGroupForShow}
+                               setIsGroupShowing={setIsGroupShowing}
+                               isGroupShowing={isGroupShowing}
+                    />
                 ))}
             </li>
 

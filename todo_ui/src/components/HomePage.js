@@ -6,32 +6,35 @@ import TodoList from "./TodoList";
 
 function HomePage() {
 
-    const [isLoaded, setIsLoaded] = useState(false);
     const [isTodoPosted, setIsTodoPosted] = useState(false);
     const [todosInGroup, setTodosInGroup] = useState([]);
     const [addingToGroupProvider, setAddingToGroupProvider] = useState(false);
     const [todosInGroupForShow, setTodosInGroupForShow] = useState([]);
+    const [isGroupShowing, setIsGroupShowing] = useState(false)
+
+    return (
+        <div>
+            <header>
+                <h1>Todo LIST</h1>
+                <EnterBar setIsTodoPosted={setIsTodoPosted}/>
+            </header>
+            <main>
+                <GroupsList  todosInGroup={todosInGroup}
+                            setAddingToGroupProvider={setAddingToGroupProvider}
+                             setTodosInGroupForShow={setTodosInGroupForShow}
+                             setIsGroupShowing = {setIsGroupShowing}
+                             isGroupShowing = {isGroupShowing}/>
 
 
-
-        return (
-
-            <div>
-                <header>
-                    <h1>Todo LIST</h1>
-                    <EnterBar setIsTodoPosted={setIsTodoPosted}/>
-                </header>
-                <main>
-                    <GroupsList setIsLoaded={setIsLoaded} todosInGroup={todosInGroup}
-
-                                setAddingToGroupProvider={setAddingToGroupProvider}
-                                setTodosInGroupForShow={todosInGroupForShow}/>
-
-                    <TodoList setIsLoaded={setIsLoaded} setIsTodoPosted={setIsTodoPosted} isTodoPosted={isTodoPosted}
-                             />
-                </main>
-            </div>
-        );
+                <TodoList  setIsTodoPosted={setIsTodoPosted} isTodoPosted={isTodoPosted}
+                           addingToGroupProvider={addingToGroupProvider}
+                           todosInGroup={todosInGroup} setTodosInGroup={setTodosInGroup}
+                           todosInGroupForShow = {todosInGroupForShow}
+                           isGroupShowing = {isGroupShowing}
+                />
+            </main>
+        </div>
+    );
 
 }
 

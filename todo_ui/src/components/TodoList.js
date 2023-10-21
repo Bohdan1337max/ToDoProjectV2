@@ -1,9 +1,18 @@
 import React, {useState, useEffect} from "react";
 import Todo from "./Todo";
 
-function TodoList({isLoaded,setIsLoaded, setError,isTodoPosted, setIsTodoPosted}) {
+function TodoList({
+                      setError,
+                      isTodoPosted,
+                      setIsTodoPosted,
+                      addingToGroupProvider,
+                      todosInGroup,
+                      setTodosInGroup,
+                      isGroupShowing,
+                      todosInGroupForShow
+                  }) {
+    const [isLoaded, setIsLoaded] = useState(false);
     const [todos, setTodos] = useState([]);
-    const [todosInGroup, setTodosInGroup] = useState([]);
 
 
     const FetchTodos = () => {
@@ -38,7 +47,7 @@ function TodoList({isLoaded,setIsLoaded, setError,isTodoPosted, setIsTodoPosted}
             {todos.map((todo) => (
                 <Todo key={todo.id} todo={todo} setTodos={setTodos} todos={todos}
                       todosInGroup={todosInGroup}
-                      setTodosInGroup={setTodosInGroup}/>
+                      setTodosInGroup={setTodosInGroup} addingToGroupProvider={addingToGroupProvider}/>
             ))}
         </ul>
     );

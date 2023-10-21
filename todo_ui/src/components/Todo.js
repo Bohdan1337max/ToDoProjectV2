@@ -1,9 +1,9 @@
 import React, {useState} from "react";
 import {HiOutlineTrash} from "react-icons/hi";
-import todoGroup from "./TodoGroup";
 
 function Todo({todo, setTodos, addingToGroupProvider, todosInGroup, setTodosInGroup}) {
-    const [isEdited, setIsEdited] = useState (false);
+
+    const [isEdited, setIsEdited] = useState(false);
     const [checked, setChecked] = useState(false);
     const [updatedName, setUpdatedName] = useState(todo.name);
     const [isCompleted, setIsCompleted] = useState(todo.completed);
@@ -59,7 +59,6 @@ function Todo({todo, setTodos, addingToGroupProvider, todosInGroup, setTodosInGr
     }
     const handleChange = event => {
         setUpdatedName(event.target.value);
-        console.log(updatedName)
     }
 
     const editButtonLabel = isEdited ? "Save" : "Edit";
@@ -76,11 +75,9 @@ function Todo({todo, setTodos, addingToGroupProvider, todosInGroup, setTodosInGr
 
         const currentCheckBoxValue = !checked;
 
-        if(currentCheckBoxValue)
-        {
+        if (currentCheckBoxValue) {
             addToGroup()
-        }
-        else {
+        } else {
             removeFromGroup()
         }
         setChecked(currentCheckBoxValue)
@@ -88,20 +85,16 @@ function Todo({todo, setTodos, addingToGroupProvider, todosInGroup, setTodosInGr
 
 
     const removeFromGroup = () => {
-        console.log(todosInGroup)
         const updatedTodosInGroup = todosInGroup.filter((id) => id !== todo.id);
         setTodosInGroup(updatedTodosInGroup);
-        console.log(todosInGroup)
     };
     const addToGroup = () => {
-        console.log(todosInGroup)
         if (todosInGroup.includes(todo.id)) {
             console.error(`Todo with ID ${todo.id} is already in the group.`);
             return;
         }
         const updatedTodosInGroup = [...todosInGroup, todo.id];
         setTodosInGroup(updatedTodosInGroup);
-        console.log(todosInGroup)
     }
 
     return (<div className={`post ${isCompleted ? "completed" : ""}`}>
@@ -109,7 +102,8 @@ function Todo({todo, setTodos, addingToGroupProvider, todosInGroup, setTodosInGr
             <textarea className={"edit-input"} type={"text"} defaultValue={todo.name} onChange={handleChange}/> :
             <div className={"task-text"}>{todo.name}</div>}
         <div className={"edit-buttons"} role={"group"}>
-            <div> {addingToGroupProvider ? <input type={"checkbox"} value={checked} onChange={checkBoxChangeHandle} /> : ""}</div>
+            <div> {addingToGroupProvider ?
+                <input type={"checkbox"} value={checked} onChange={checkBoxChangeHandle}/> : ""}</div>
 
             <button className={"edit-button"} onClick={editButtonHandle}>{editButtonLabel}</button>
             <div className={"complete-button"}
