@@ -5,13 +5,13 @@ import TodoGroup from "./TodoGroup";
 
 function GroupsList({
                         setError, setAddingToGroupProvider, todosInGroup, setTodosInGroupForShow, isGroupShowing,
-                        setIsGroupShowing
+                        setIsGroupShowing,setIsTodoPosted
                     }) {
     const [isLoaded, setIsLoaded] = useState(false);
     const [isEnter, setIsEnter] = useState(false);
     const [groupName, setGroupName] = useState('');
     const [todoGroups, setTodoGroups] = useState([]);
-    const [isGroupPosted, setIsGroupPosted] = useState(false);
+    const [isGroupChanged, setIsGroupChanged] = useState(false);
 
     const FetchTodoGroups = () => {
         fetch("/group").then((res) => res.json()).then(
@@ -32,11 +32,11 @@ function GroupsList({
 
 
     useEffect(() => {
-        if (isGroupPosted) {
+        if (isGroupChanged) {
             FetchTodoGroups();
-            setIsGroupPosted(false)
+            setIsGroupChanged(false)
         }
-    }, [isGroupPosted]);
+    }, [isGroupChanged]);
 
     const requestOptions = {
         method: "POST",
@@ -58,7 +58,7 @@ function GroupsList({
                 throw new Error("Failed to add task");
             }
         })
-            .then(() => setIsGroupPosted(true)).then(() => setGroupName("")).then(() => setIsEnter(!isEnter))
+            .then(() => setIsGroupChanged(true)).then(() => setGroupName("")).then(() => setIsEnter(!isEnter))
             .catch(error => console.log(error));
     }
 
@@ -82,11 +82,13 @@ function GroupsList({
                                setTodosInGroupForShow={setTodosInGroupForShow}
                                setIsGroupShowing={setIsGroupShowing}
                                isGroupShowing={isGroupShowing}
+                               setIsGroupChanged = {setIsGroupChanged}
+                               setIsTodoPosted = {setIsTodoPosted} // or changed
                     />
                 ))}
             </li>
 
-
+і
         </div>
     );
 }

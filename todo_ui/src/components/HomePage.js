@@ -11,19 +11,28 @@ function HomePage() {
     const [addingToGroupProvider, setAddingToGroupProvider] = useState(false);
     const [todosInGroupForShow, setTodosInGroupForShow] = useState([]);
     const [isGroupShowing, setIsGroupShowing] = useState(false)
+    //TODO Add home button and value in checkBox should be from api
 
+    //TODO Set to FALSE checkbox after adding to Group
+    //TODO Context
+
+    const HomeButtonHandler = () => {
+      setIsGroupShowing(false)
+    }
     return (
         <div>
             <header>
-                <h1>Todo LIST</h1>
+                <h1 onClick={HomeButtonHandler}>Todo LIST</h1>
                 <EnterBar setIsTodoPosted={setIsTodoPosted}/>
             </header>
             <main>
                 <GroupsList  todosInGroup={todosInGroup}
-                            setAddingToGroupProvider={setAddingToGroupProvider}
+                             setAddingToGroupProvider={setAddingToGroupProvider}
                              setTodosInGroupForShow={setTodosInGroupForShow}
                              setIsGroupShowing = {setIsGroupShowing}
-                             isGroupShowing = {isGroupShowing}/>
+                             isGroupShowing = {isGroupShowing}
+                             setIsTodoPosted = {setIsTodoPosted} // or changed
+                />
 
 
                 <TodoList  setIsTodoPosted={setIsTodoPosted} isTodoPosted={isTodoPosted}

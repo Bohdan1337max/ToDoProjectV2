@@ -20,6 +20,7 @@ function TodoList({
             .then((res) => res.json())
             .then(
                 (result) => {
+                    console.log(result)
                     setIsLoaded(true);
                     setTodos(result);
                 },
@@ -43,13 +44,37 @@ function TodoList({
     }, [isTodoPosted]);
 
     return (
-        <ul>
-            {todos.map((todo) => (
-                <Todo key={todo.id} todo={todo} setTodos={setTodos} todos={todos}
-                      todosInGroup={todosInGroup}
-                      setTodosInGroup={setTodosInGroup} addingToGroupProvider={addingToGroupProvider}/>
-            ))}
-        </ul>
+        <div>
+            {isGroupShowing ? (
+                <ul>
+                        {todosInGroupForShow.map((todo) => (
+                        <Todo
+                            key={todo.id}
+                            todo={todo}
+                            setTodos={setTodos}
+                            todos={todos}
+                            todosInGroup={todosInGroup}
+                            setTodosInGroup={setTodosInGroup}
+                            addingToGroupProvider={addingToGroupProvider}
+                        />
+                    ))}
+                </ul>
+            ) : (
+                <ul>
+                    {todos.map((todo) => (
+                            <Todo
+                            key={todo.id}
+                            todo={todo}
+                            setTodos={setTodos}
+                            todos={todos}
+                            todosInGroup={todosInGroup}
+                            setTodosInGroup={setTodosInGroup}
+                            addingToGroupProvider={addingToGroupProvider}
+                        />
+                    ))}
+                </ul>
+            )}
+        </div>
     );
 }
 

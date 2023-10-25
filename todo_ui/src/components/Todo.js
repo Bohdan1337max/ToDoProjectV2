@@ -72,7 +72,6 @@ function Todo({todo, setTodos, addingToGroupProvider, todosInGroup, setTodosInGr
     };
 
     const checkBoxChangeHandle = () => {
-
         const currentCheckBoxValue = !checked;
 
         if (currentCheckBoxValue) {
@@ -87,6 +86,7 @@ function Todo({todo, setTodos, addingToGroupProvider, todosInGroup, setTodosInGr
     const removeFromGroup = () => {
         const updatedTodosInGroup = todosInGroup.filter((id) => id !== todo.id);
         setTodosInGroup(updatedTodosInGroup);
+        console.log(todosInGroup)
     };
     const addToGroup = () => {
         if (todosInGroup.includes(todo.id)) {
@@ -95,12 +95,13 @@ function Todo({todo, setTodos, addingToGroupProvider, todosInGroup, setTodosInGr
         }
         const updatedTodosInGroup = [...todosInGroup, todo.id];
         setTodosInGroup(updatedTodosInGroup);
+        console.log(todosInGroup)
     }
 
     return (<div className={`post ${isCompleted ? "completed" : ""}`}>
         {isEdited ?
             <textarea className={"edit-input"} type={"text"} defaultValue={todo.name} onChange={handleChange}/> :
-            <div className={"task-text"}>{todo.name}</div>}
+            <div className={"task-text"}>{todo.name}  {todo.todoGroupId}</div>}
         <div className={"edit-buttons"} role={"group"}>
             <div> {addingToGroupProvider ?
                 <input type={"checkbox"} value={checked} onChange={checkBoxChangeHandle}/> : ""}</div>

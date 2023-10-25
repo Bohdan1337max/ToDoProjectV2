@@ -9,7 +9,8 @@ function TodoGroup({
                        todosInGroup,
                        setTodosInGroupForShow,
                        isGroupShowing,
-                       setIsGroupShowing
+                       setIsGroupShowing,
+                       setIsTodoPosted
                    }) {
 
     const [isAddingToGroup, setIsAddingToGroup] = useState(false);
@@ -33,12 +34,18 @@ function TodoGroup({
             (result) => {
                 setTodosInGroupForShow(result);
             }
-        ).then(isGroupShowing? " ": setIsGroupShowing(true))
+        )
         console.log(isGroupShowing)
     }
 
+    const ShowTodosInGroup = () => {
+        FetchTodosInGroup();
+        if (!isGroupShowing) {
+            setIsGroupShowing(true)
+        }
+    }
 
-    const canselAddingToGroup = () => {
+    const addingToGroupHandler = () => {
         const currentIsAddingToGroup = !isAddingToGroup;
         setIsAddingToGroup(currentIsAddingToGroup);
         setAddingToGroupProvider(currentIsAddingToGroup);
@@ -55,20 +62,20 @@ function TodoGroup({
             if (!response.ok) {
                 throw new Error("Failed to put todos to group")
             }
-        }).then(canselAddingToGroup)
+        }).then(setIsTodoPosted(true)).then(addingToGroupHandler)
 
     }
 
     return (
         <div className={"todo-group"}>
-            <div className={'todo-group-text'} onClick={FetchTodosInGroup}>
+            <div className={'todo-group-text'} onClick={ShowTodosInGroup}>
                 {todoGroup.name}
 
             </div>
 
-            {isAddingToGroup ? <div><HiCheck onClick={setCheckedTodos}/> <HiX onClick={canselAddingToGroup}/></div> :
+            {isAddingToGroup ? <div><HiCheck onClick={setCheckedTodos}/> <HiX onClick={addingToGroupHandler}/></div> :
                 <div className={"add-todo-to-group-button"}>
-                    <IoMdAdd onClick={canselAddingToGroup}/>
+                    <IoMdAdd onClick={addingToGroupHandler}/>
                 </div>}
 
             <div className={"delete-group-button"}>

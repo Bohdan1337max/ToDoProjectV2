@@ -22,8 +22,9 @@ public class TodoGroupController : ControllerBase
     }
 
     [HttpGet]
-    [Route("todosInGroup")]
-    public IEnumerable<Todo> GetTodosInGroup(int groupId)
+    [Route("todosInGroup/{groupId:int}")]
+    
+    public IEnumerable<Todo> GetTodosInGroup([FromRoute] int groupId)
     {
         return _todoGroupRepository.GetTodosInGroup(groupId);
     }

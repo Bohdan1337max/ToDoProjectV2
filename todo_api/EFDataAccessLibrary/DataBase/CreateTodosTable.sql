@@ -8,6 +8,6 @@ CREATE TABLE IF NOT EXISTS todo
     constraint fk_todo_group
         foreign key (todo_group_id)
             references todo_group (todo_group_id)
-            ON DELETE CASCADE
+            ON DELETE SET NULL
 )
 
