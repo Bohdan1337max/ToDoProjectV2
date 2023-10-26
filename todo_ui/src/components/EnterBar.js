@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 
 
-const EnterBar = ({setIsTodoPosted}) => {
+const EnterBar = ({ onTodoAdded}) => {
     const [taskName, setTaskName] = useState('');
     const requestOptions = {
         method: "POST",
@@ -20,7 +20,7 @@ const EnterBar = ({setIsTodoPosted}) => {
                 throw new Error("Failed to add task");
             }
         })
-            .then(() => setIsTodoPosted(true)).then(() => setTaskName(""))
+            .then(() => onTodoAdded()).then(() => setTaskName(""))
             .catch(error => console.log(error));
     }
 

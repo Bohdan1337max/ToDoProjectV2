@@ -85,8 +85,9 @@ function Todo({todo, setTodos, addingToGroupProvider, todosInGroup, setTodosInGr
 
     const removeFromGroup = () => {
         const updatedTodosInGroup = todosInGroup.filter((id) => id !== todo.id);
+        console.log(updatedTodosInGroup)
         setTodosInGroup(updatedTodosInGroup);
-        console.log(todosInGroup)
+
     };
     const addToGroup = () => {
         if (todosInGroup.includes(todo.id)) {

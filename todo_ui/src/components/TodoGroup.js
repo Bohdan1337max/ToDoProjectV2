@@ -10,7 +10,8 @@ function TodoGroup({
                        setTodosInGroupForShow,
                        isGroupShowing,
                        setIsGroupShowing,
-                       setIsTodoPosted
+                       onTodoAdded,
+                       setTodosInGroup
                    }) {
 
     const [isAddingToGroup, setIsAddingToGroup] = useState(false);
@@ -62,8 +63,7 @@ function TodoGroup({
             if (!response.ok) {
                 throw new Error("Failed to put todos to group")
             }
-        }).then(setIsTodoPosted(true)).then(addingToGroupHandler)
-
+        }).then(addingToGroupHandler).then(onTodoAdded).then(setTodosInGroup([]))
     }
 
     return (

@@ -5,10 +5,10 @@ import TodoGroup from "./TodoGroup";
 
 function GroupsList({
                         setError, setAddingToGroupProvider, todosInGroup, setTodosInGroupForShow, isGroupShowing,
-                        setIsGroupShowing,setIsTodoPosted
+                        setIsGroupShowing , OnTodoAdded: onTodoAdded, setTodosInGroup
                     }) {
     const [isLoaded, setIsLoaded] = useState(false);
-    const [isEnter, setIsEnter] = useState(false);
+    const [isGroupNameEnter, setIsGroupNameEnter] = useState(false);
     const [groupName, setGroupName] = useState('');
     const [todoGroups, setTodoGroups] = useState([]);
     const [isGroupChanged, setIsGroupChanged] = useState(false);
@@ -45,7 +45,7 @@ function GroupsList({
     }
 
     function openEnterBar() {
-        setIsEnter(!isEnter)
+        setIsGroupNameEnter(!isGroupNameEnter)
     }
 
     const saveButtonHandler = () => {
@@ -58,7 +58,7 @@ function GroupsList({
                 throw new Error("Failed to add task");
             }
         })
-            .then(() => setIsGroupChanged(true)).then(() => setGroupName("")).then(() => setIsEnter(!isEnter))
+            .then(() => setIsGroupChanged(true)).then(() => setGroupName("")).then(() => setIsGroupNameEnter(!isGroupNameEnter))
             .catch(error => console.log(error));
     }
 
@@ -69,8 +69,8 @@ function GroupsList({
 
     return (
         <div className={"left-sidebar"}>
-            <IoMdAdd size={20} className={`add-group-button ${isEnter ? "visible" : ""}`} onClick={saveButtonHandler}/>
-            <input type={"text"} className={`group-enter-bar ${isEnter ? "visible" : ""}`} onChange={handleChange}
+            <IoMdAdd size={20} className={`add-group-button ${isGroupNameEnter ? "visible" : ""}`} onClick={saveButtonHandler}/>
+            <input type={"text"} className={`group-enter-bar ${isGroupNameEnter ? "visible" : ""}`} onChange={handleChange}
                    value={groupName}/>
             <VscEdit className={"open-enter-bar-group-button"} size={20} onClick={openEnterBar}/>
             <h2> Todo Groups</h2>
@@ -83,12 +83,11 @@ function GroupsList({
                                setIsGroupShowing={setIsGroupShowing}
                                isGroupShowing={isGroupShowing}
                                setIsGroupChanged = {setIsGroupChanged}
-                               setIsTodoPosted = {setIsTodoPosted} // or changed
+                               onTodoAdded= {onTodoAdded} // or changed
+                        setTodosInGroup = {setTodosInGroup}
                     />
                 ))}
             </li>
-
-і
         </div>
     );
 }

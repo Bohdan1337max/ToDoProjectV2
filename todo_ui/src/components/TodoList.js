@@ -2,52 +2,28 @@ import React, {useState, useEffect} from "react";
 import Todo from "./Todo";
 
 function TodoList({
-                      setError,
-                      isTodoPosted,
-                      setIsTodoPosted,
+                      todos,
+                      setTodos,
                       addingToGroupProvider,
                       todosInGroup,
                       setTodosInGroup,
                       isGroupShowing,
-                      todosInGroupForShow
+                      todosInGroupForShow,
+                      OnTodoAdded: onTodoAdded
                   }) {
-    const [isLoaded, setIsLoaded] = useState(false);
-    const [todos, setTodos] = useState([]);
 
 
-    const FetchTodos = () => {
-        fetch("/todo")
-            .then((res) => res.json())
-            .then(
-                (result) => {
-                    console.log(result)
-                    setIsLoaded(true);
-                    setTodos(result);
-                },
-                (error) => {
-                    setIsLoaded(false);
-                    setError(error);
-                }
-            );
-    }
+
+//Todo replace useEfectOn Function On TodoAdded
 
     useEffect(() => {
-        FetchTodos();
-    }, []);
-
-
-    useEffect(() => {
-        if (isTodoPosted) {
-            FetchTodos();
-            setIsTodoPosted(false)
-        }
-    }, [isTodoPosted]);
-
+        onTodoAdded();
+    },[]);
     return (
         <div>
             {isGroupShowing ? (
                 <ul>
-                        {todosInGroupForShow.map((todo) => (
+                    {todosInGroupForShow.map((todo) => (
                         <Todo
                             key={todo.id}
                             todo={todo}
@@ -62,7 +38,7 @@ function TodoList({
             ) : (
                 <ul>
                     {todos.map((todo) => (
-                            <Todo
+                        <Todo
                             key={todo.id}
                             todo={todo}
                             setTodos={setTodos}
@@ -70,6 +46,7 @@ function TodoList({
                             todosInGroup={todosInGroup}
                             setTodosInGroup={setTodosInGroup}
                             addingToGroupProvider={addingToGroupProvider}
+
                         />
                     ))}
                 </ul>
