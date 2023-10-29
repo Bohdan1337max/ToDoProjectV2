@@ -4,8 +4,8 @@ import {IoMdAdd} from "react-icons/io";
 import TodoGroup from "./TodoGroup";
 
 function GroupsList({
-                        setError, setAddingToGroupProvider, todosInGroup, setTodosInGroupForShow, isGroupShowing,
-                        setIsGroupShowing , OnTodoAdded: onTodoAdded, setTodosInGroup
+                        setError, setAddingToGroupProvider,  setTodosInGroupForShow, isGroupShowing,
+                        setIsGroupShowing ,onTodoAdded, todos
                     }) {
     const [isLoaded, setIsLoaded] = useState(false);
     const [isGroupNameEnter, setIsGroupNameEnter] = useState(false);
@@ -77,14 +77,14 @@ function GroupsList({
             <li>
                 {todoGroups.map((todoGroup) => (
                     <TodoGroup key={todoGroup.id} todoGroup={todoGroup} setTodoGroups={setTodoGroups}
-                               todosInGroup={todosInGroup}
+                               todos = {todos}
                                setAddingToGroupProvider={setAddingToGroupProvider}
                                setTodosInGroupForShow={setTodosInGroupForShow}
                                setIsGroupShowing={setIsGroupShowing}
                                isGroupShowing={isGroupShowing}
                                setIsGroupChanged = {setIsGroupChanged}
                                onTodoAdded= {onTodoAdded} // or changed
-                        setTodosInGroup = {setTodosInGroup}
+
                     />
                 ))}
             </li>

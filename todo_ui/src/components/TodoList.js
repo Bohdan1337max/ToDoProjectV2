@@ -9,16 +9,14 @@ function TodoList({
                       setTodosInGroup,
                       isGroupShowing,
                       todosInGroupForShow,
-                      OnTodoAdded: onTodoAdded
+                      onTodoAdded
                   }) {
-
-
-
-//Todo replace useEfectOn Function On TodoAdded
 
     useEffect(() => {
         onTodoAdded();
     },[]);
+
+
     return (
         <div>
             {isGroupShowing ? (
@@ -52,6 +50,7 @@ function TodoList({
                 </ul>
             )}
         </div>
+
     );
 }
 

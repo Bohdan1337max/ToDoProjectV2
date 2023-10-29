@@ -1,21 +1,21 @@
 import React, {useState, useEffect} from "react";
 import {HiOutlineTrash, HiCheck, HiX} from "react-icons/hi";
 import {IoMdAdd} from "react-icons/io";
+import todo from "./Todo";
 
 function TodoGroup({
                        todoGroup,
                        setTodoGroups,
                        setAddingToGroupProvider,
-                       todosInGroup,
                        setTodosInGroupForShow,
                        isGroupShowing,
                        setIsGroupShowing,
                        onTodoAdded,
-                       setTodosInGroup
+                       todos
                    }) {
 
     const [isAddingToGroup, setIsAddingToGroup] = useState(false);
-
+    const [todosInGroup, setTodosInGroup] = useState([]);
     function deleteTask() {
         const requestOptions = {
             method: "DELETE", headers: {"Content-Type": "application/json"}
@@ -36,7 +36,6 @@ function TodoGroup({
                 setTodosInGroupForShow(result);
             }
         )
-        console.log(isGroupShowing)
     }
 
     const ShowTodosInGroup = () => {
@@ -50,20 +49,26 @@ function TodoGroup({
         const currentIsAddingToGroup = !isAddingToGroup;
         setIsAddingToGroup(currentIsAddingToGroup);
         setAddingToGroupProvider(currentIsAddingToGroup);
+
     }
 
     const setCheckedTodos = () => {
+//todo handle checked prop before send on API
+        const checkedTodos = todos.filter((todo) => todo.checked === true)
+        setTodosInGroup([...todosInGroup, ...checkedTodos]);
         const requestOptions = {
             method: "PUT",
             headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({todosInGroup})
+            body: JSON.stringify({checkedTodos})
         }
 
         fetch(`/group/${todoGroup.id}`, requestOptions).then((response) => {
             if (!response.ok) {
                 throw new Error("Failed to put todos to group")
             }
-        }).then(addingToGroupHandler).then(onTodoAdded).then(setTodosInGroup([]))
+        }).then(addingToGroupHandler).then(onTodoAdded)
+        console.log(checkedTodos)
+
     }
 
     return (
