@@ -24,8 +24,9 @@ function HomePage() {
         fetch("/todo")
             .then((res) => res.json())
             .then((result) => {
+
                 const todosWithChecked = result.map((todo) => ({
-                    ...todo, checked: false, // Set the default value for the new property
+                    ...todo, checked: false,
                 }));
                 setTodos(todosWithChecked);
 

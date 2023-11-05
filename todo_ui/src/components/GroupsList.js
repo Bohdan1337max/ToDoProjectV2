@@ -4,10 +4,9 @@ import {IoMdAdd} from "react-icons/io";
 import TodoGroup from "./TodoGroup";
 
 function GroupsList({
-                        setError, setAddingToGroupProvider,  setTodosInGroupForShow, isGroupShowing,
+                         setAddingToGroupProvider,  setTodosInGroupForShow, isGroupShowing,
                         setIsGroupShowing ,onTodoAdded, todos
                     }) {
-    const [isLoaded, setIsLoaded] = useState(false);
     const [isGroupNameEnter, setIsGroupNameEnter] = useState(false);
     const [groupName, setGroupName] = useState('');
     const [todoGroups, setTodoGroups] = useState([]);
@@ -16,12 +15,7 @@ function GroupsList({
     const FetchTodoGroups = () => {
         fetch("/group").then((res) => res.json()).then(
             (result) => {
-                setIsLoaded(true);
                 setTodoGroups(result);
-            },
-            (error) => {
-                setIsLoaded(false);
-                setError(error);
             }
         )
     }
