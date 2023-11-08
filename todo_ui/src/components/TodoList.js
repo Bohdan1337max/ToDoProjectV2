@@ -1,86 +1,58 @@
 import React, {useState, useEffect} from "react";
-import EnterBar from "./EnterBar";
 import Todo from "./Todo";
-import GroupsList from "./GroupsList"
 
-function TodoList() {
-
-    const [error, setError] = useState(null);
-    const [isLoaded, setIsLoaded] = useState(false);
-    const [isPosted, setIsPosted] = useState(false);
-    const [todos, setTodos] = useState([]);
-    const [todoGroups, setTodoGroups] = useState([]);
-    const [todosInGroup, setTodosInGroup] = useState([]);
-    const [isAddedToGroup, setIsAddedToGroup] = useState(false);
-
-
-    const FetchTodos = () => {
-        fetch("/todo")
-            .then((res) => res.json())
-            .then(
-                (result) => {
-                    setIsLoaded(true);
-                    setTodos(result);
-                },
-                (error) => {
-                    setIsLoaded(false);
-                    setError(error);
-                }
-            );
-    }
-    const FetchTodoGroups = () => {
-        fetch("/group").then((res) => res.json()).then(
-            (result) => {
-                setIsLoaded(true);
-                setTodoGroups(result);
-            },
-            (error) => {
-                setIsLoaded(false);
-                setError(error);
-            }
-        )
-
-    }
+function TodoList({
+                      todos,
+                      setTodos,
+                      addingToGroupProvider,
+                      todosInGroup,
+                      setTodosInGroup,
+                      isGroupShowing,
+                      todosInGroupForShow,
+                      onTodoAdded
+                  }) {
 
     useEffect(() => {
-        FetchTodos();
-        FetchTodoGroups();
+        onTodoAdded();
     }, []);
 
-    useEffect(() => {
-        if (isPosted) {
-            FetchTodos();
-            FetchTodoGroups();
-            setIsPosted(false)
-        }
-    }, [isPosted]);
 
+    return (
+        <div>
+            {isGroupShowing ? (
+                <ul>
+                    {todosInGroupForShow.map((todo) => (
+                        <Todo
+                            key={todo.id}
+                            todo={todo}
+                            setTodos={setTodos}
+                            todos={todos}
+                            todosInGroup={todosInGroup}
+                            setTodosInGroup={setTodosInGroup}
+                            addingToGroupProvider={addingToGroupProvider}
+                        />
+                    ))}
+                </ul>
+            ) : (
+                <ul>
+                    {todos.map((todo) => (
+                        <Todo
+                            key={todo.id}
+                            todo={todo}
+                            setTodos={setTodos}
+                            todos={todos}
+                            todosInGroup={todosInGroup}
+                            setTodosInGroup={setTodosInGroup}
+                            addingToGroupProvider={addingToGroupProvider}
 
-    if (error) {
-        return <div>Error: {error.message}</div>;
-    } else if (!isLoaded) {
-        return <div>Loading...</div>;
-    } else if (isLoaded) {
-        return (
-            <div>
-                <header>
-                    <h1>Todo LIST</h1>
-                    <EnterBar isPosted={isPosted} setIsPosted={setIsPosted}/>
-                </header>
-                <main>
-                    <GroupsList todoGroups={todoGroups} setTodoGroups={setTodoGroups} setIsPosted={setIsPosted}
-                                isAddedToGroup={isAddedToGroup} setIsAddedToGroup={setIsAddedToGroup}/>
-                    <ul>
-                        {todos.map((todo) => (
-                            <Todo key={todo.id} todo={todo} setTodos={setTodos} todos={todos}
-                                  isAddedToGroup={isAddedToGroup} todosInGroup={todosInGroup}
-                                  setTodosInGroup={setTodosInGroup}/>
-                        ))}
-                    </ul>
-                </main>
-            </div>
-        );
-    }
+                        />
+                    ))}
+                </ul>
+            )}
+        </div>
+
+    );
 }
+
 
 export default TodoList;

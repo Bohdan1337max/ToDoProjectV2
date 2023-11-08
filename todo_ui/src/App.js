@@ -1,10 +1,10 @@
-import logo from './logo.svg';
 import './App.css';
-import TodoList from "./components/TodoList";
+import HomePage from "./components/HomePage";
+import React from "react";
 
 function App() {
   return (
-      <TodoList/>
+      <HomePage/>
   );
 }
 

@@ -5,7 +5,7 @@ using todo_api.Repos;
 namespace todo_api.Controllers;
 
 [ApiController]
-[Route("group")]
+[Route("api/group")]
 public class TodoGroupController : ControllerBase
 {
     private readonly ITodoGroupRepository _todoGroupRepository;
@@ -19,6 +19,13 @@ public class TodoGroupController : ControllerBase
     public IEnumerable<TodoGroup> GetTodoGroups()
     {
         return _todoGroupRepository.GetTodoGroups();
+    }
+
+    [HttpGet]
+    [Route("todosInGroup/{groupId:int}")]
+    public IEnumerable<Todo> GetTodosInGroup([FromRoute] int groupId)
+    {
+        return _todoGroupRepository.GetTodosInGroup(groupId);
     }
 
     [HttpPost]
@@ -38,9 +45,10 @@ public class TodoGroupController : ControllerBase
     }
 
     [HttpPut]
-    public IActionResult AddTodoToGroup(int groupId, int[] todosId)
+    [Route("{groupId:int}")]
+    public IActionResult AddTodoToGroup([FromRoute] int groupId, [FromBody] TodoIds todoIds)
     {
-        var isTodoAddedToGroup = _todoGroupRepository.AddTodoToGroup(groupId, todosId);
+        var isTodoAddedToGroup = _todoGroupRepository.AddTodoToGroup(groupId, todoIds.TodosInGroup);
         if (!isTodoAddedToGroup)
             return BadRequest("Error with todo added");
         return Ok();

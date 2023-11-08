@@ -7,7 +7,7 @@ using todo_api.Repos;
 namespace todo_api.Controllers;
 
 [ApiController]
-[Route("todo")]
+[Route("api/todo")]
 public class TodoController : ControllerBase
 {
     private readonly ITodoRepository _todoRepository;
@@ -43,7 +43,7 @@ public class TodoController : ControllerBase
     }
     
     [HttpPut]
-    public IActionResult UpdateTask(Todo todo)
+    public IActionResult UpdateTodo(Todo todo)
     {
         var (isUpdated, updatedTask) = _todoRepository.UpdateTodo(todo);
         if (!isUpdated)

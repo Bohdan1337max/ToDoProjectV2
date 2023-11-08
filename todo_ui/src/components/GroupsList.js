@@ -1,14 +1,36 @@
 import React, {useState, useEffect} from "react";
-import EnterBar from "./EnterBar";
-import Todo from "./Todo";
 import {VscEdit} from "react-icons/vsc";
 import {IoMdAdd} from "react-icons/io";
 import TodoGroup from "./TodoGroup";
 
-function GroupsList({todoGroups, setTodoGroups, setIsPosted, isAddedToGroup, setIsAddedToGroup}) {
-    const [isEnter, setIsEnter] = useState(false);
+function GroupsList({
+                        setAddingToGroupProvider, setTodosInGroupForShow, isGroupShowing,
+                        setIsGroupShowing, onTodoAdded, todos, setTodos
+                    }) {
+    const [isGroupNameEnter, setIsGroupNameEnter] = useState(false);
     const [groupName, setGroupName] = useState('');
+    const [todoGroups, setTodoGroups] = useState([]);
+    const [isGroupChanged, setIsGroupChanged] = useState(false);
+    const [selectedGroup, setSelectedGroup] = useState(null);
+    const FetchTodoGroups = () => {
+        fetch("api/group").then((res) => res.json()).then(
+            (result) => {
+                setTodoGroups(result);
+            }
+        )
+    }
 
+    useEffect(() => {
+        FetchTodoGroups();
+    }, []);
+
+
+    useEffect(() => {
+        if (isGroupChanged) {
+            FetchTodoGroups();
+            setIsGroupChanged(false)
+        }
+    }, [isGroupChanged]);
 
     const requestOptions = {
         method: "POST",
@@ -17,40 +39,67 @@ function GroupsList({todoGroups, setTodoGroups, setIsPosted, isAddedToGroup, set
     }
 
     function openEnterBar() {
-        setIsEnter(!isEnter)
+        setIsGroupNameEnter(!isGroupNameEnter)
     }
 
     const saveButtonHandler = () => {
         if (!groupName.trim()) {
             alert("Task can't be empty")
             return;
+
         }
-        fetch("/group", requestOptions).then((response) => {
+        fetch("api/group", requestOptions).then((response) => {
             if (!response.ok) {
                 throw new Error("Failed to add task");
             }
-            console.log(response)
         })
-            .then(() => setIsPosted(true)).then(() => setGroupName("")).then(() => setIsEnter(!isEnter))
+            .then(() => setIsGroupChanged(true)).then(() => setGroupName(""))
+            .then(() => setIsGroupNameEnter(!isGroupNameEnter))
             .catch(error => console.log(error));
     }
 
     const handleChange = event => {
         setGroupName(event.target.value)
     }
-
+    const allGroupsButtonHandle = () => {
+        setIsGroupShowing(false)
+        setSelectedGroup(null)
+    }
+    const handleGroupSelection = (group) => {
+        setSelectedGroup(group);
+        console.log(selectedGroup)
+    };
 
     return (
         <div className={"left-sidebar"}>
-            <IoMdAdd size={20} className={`add-group-button ${isEnter ? "visible" : ""}`} onClick={saveButtonHandler}/>
-            <input type={"text"} className={`group-enter-bar ${isEnter ? "visible" : ""}`} onChange={handleChange}
+            <IoMdAdd size={20} className={`add-group-button ${isGroupNameEnter ? "visible" : ""}`}
+                     onClick={saveButtonHandler}/>
+            <input type={"text"} className={`group-enter-bar ${isGroupNameEnter ? "visible" : ""}`}
+                   onChange={handleChange}
                    value={groupName}/>
             <VscEdit className={"open-enter-bar-group-button"} size={20} onClick={openEnterBar}/>
             <h2> Todo Groups</h2>
+
             <li>
+                <div style={{justifyContent: "center", cursor: "pointer"}}
+                     className={"todo-group"}
+                     onClick={allGroupsButtonHandle}>
+                    All groups
+                </div>
                 {todoGroups.map((todoGroup) => (
-                    <TodoGroup key={todoGroup.id} todoGroup={todoGroup} setTodoGroups={setTodoGroups}
-                               isAddedToGroup={isAddedToGroup} setIsAddedToGroup={setIsAddedToGroup}/>
+                    <TodoGroup
+                        key={todoGroup.id} todoGroup={todoGroup} setTodoGroups={setTodoGroups}
+                        todos={todos}
+                        setAddingToGroupProvider={setAddingToGroupProvider}
+                        setTodosInGroupForShow={setTodosInGroupForShow}
+                        setIsGroupShowing={setIsGroupShowing}
+                        isGroupShowing={isGroupShowing}
+                        setIsGroupChanged={setIsGroupChanged}
+                        onTodoAdded={onTodoAdded} // or changed
+                        setTodos={setTodos}
+                        selectedGroup={selectedGroup}
+                        handleGroupSelection={handleGroupSelection}
+                    />
                 ))}
             </li>
         </div>
