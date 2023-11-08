@@ -34,6 +34,7 @@ public class TodoGroupRepository : ITodoGroupRepository
         var todoGroupFromDb = _todosContext.TodoGroups.FirstOrDefault(g => g.Id == groupId);
         if (todoGroupFromDb is null)
             return false;
+
         foreach (var todoId in todoIds)
         {
             var todoFromDb = _todosContext.Todos.FirstOrDefault(t => t.Id == todoId);
@@ -41,6 +42,16 @@ public class TodoGroupRepository : ITodoGroupRepository
                 return false;
             todoFromDb.TodoGroupId = todoGroupFromDb.Id;
         }
+
+
+        var todosToRemoveFromGroup = _todosContext.Todos.Where(todo => !todoIds.Contains(todo.Id)).ToList();
+
+        foreach (var todo in todosToRemoveFromGroup)
+        {
+            if (todo.TodoGroupId == groupId)
+                todo.TodoGroupId = null;
+        }
+
         _todosContext.SaveChanges();
         return true;
     }

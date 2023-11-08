@@ -11,16 +11,18 @@ function TodoGroup({
                        isGroupShowing,
                        setIsGroupShowing,
                        onTodoAdded,
-                       todos
+                       todos,
+                       setTodos
                    }) {
 
     const [isAddingToGroup, setIsAddingToGroup] = useState(false);
     const [todosInGroup, setTodosInGroup] = useState([]);
+
     function deleteTask() {
         const requestOptions = {
             method: "DELETE", headers: {"Content-Type": "application/json"}
         };
-        fetch(`/group/${todoGroup.id}`, requestOptions).then((response) => {
+        fetch(`api/group/${todoGroup.id}`, requestOptions).then((response) => {
             if (!response.ok) {
                 throw new Error("Failed to delete task group");
             }
@@ -31,7 +33,7 @@ function TodoGroup({
         const requestOptions = {
             method: "GET", headers: {"Content-Type": "application/json"}
         };
-        fetch(`/group/todosInGroup/${todoGroup.id}`, requestOptions).then((res) => res.json()).then(
+        fetch(`api/group/todosInGroup/${todoGroup.id}`, requestOptions).then((res) => res.json()).then(
             (result) => {
                 setTodosInGroupForShow(result);
             }
@@ -46,28 +48,48 @@ function TodoGroup({
     }
 
     const addingToGroupHandler = () => {
+        const updatedTodos = todos.map((todo) => {
+            if (todo.todoGroupId === todoGroup.id) {
+                return {...todo, checked: true};
+            } else {
+                return todo
+            }
+        })
+
+        setTodos(updatedTodos);
+
+        showAddingToGroupHandler();
+        console.log(updatedTodos)
+    }
+
+    const showAddingToGroupHandler = () => {
         const currentIsAddingToGroup = !isAddingToGroup;
         setIsAddingToGroup(currentIsAddingToGroup);
         setAddingToGroupProvider(currentIsAddingToGroup);
-
     }
 
+    const closeAddingToGroupHandler = () => {
+       const uncheckedTodos = todos.map((todo) => ({
+            ...todo, checked: false,
+        }) )
+        showAddingToGroupHandler();
+       setTodos(uncheckedTodos)
+        console.log(todos)
+    }
     const setCheckedTodos = () => {
-//todo handle checked prop before send on API
         const checkedTodos = todos.filter((todo) => todo.checked === true)
-        setTodosInGroup([...todosInGroup, ...checkedTodos]);
+        const todosInGroup = checkedTodos.map((todo) => todo.id)
         const requestOptions = {
             method: "PUT",
             headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({checkedTodos})
+            body: JSON.stringify({todosInGroup})
         }
 
-        fetch(`/group/${todoGroup.id}`, requestOptions).then((response) => {
+        fetch(`api/group/${todoGroup.id}`, requestOptions).then((response) => {
             if (!response.ok) {
                 throw new Error("Failed to put todos to group")
             }
-        }).then(addingToGroupHandler).then(onTodoAdded)
-        console.log(checkedTodos)
+        }).then(showAddingToGroupHandler).then(onTodoAdded)
 
     }
 
@@ -78,7 +100,8 @@ function TodoGroup({
 
             </div>
 
-            {isAddingToGroup ? <div><HiCheck onClick={setCheckedTodos}/> <HiX onClick={addingToGroupHandler}/></div> :
+            {isAddingToGroup ?
+                <div><HiCheck onClick={setCheckedTodos}/> <HiX onClick={closeAddingToGroupHandler}/></div> :
                 <div className={"add-todo-to-group-button"}>
                     <IoMdAdd onClick={addingToGroupHandler}/>
                 </div>}

@@ -4,8 +4,8 @@ import {IoMdAdd} from "react-icons/io";
 import TodoGroup from "./TodoGroup";
 
 function GroupsList({
-                         setAddingToGroupProvider,  setTodosInGroupForShow, isGroupShowing,
-                        setIsGroupShowing ,onTodoAdded, todos
+                        setAddingToGroupProvider, setTodosInGroupForShow, isGroupShowing,
+                        setIsGroupShowing, onTodoAdded, todos, setTodos
                     }) {
     const [isGroupNameEnter, setIsGroupNameEnter] = useState(false);
     const [groupName, setGroupName] = useState('');
@@ -13,7 +13,7 @@ function GroupsList({
     const [isGroupChanged, setIsGroupChanged] = useState(false);
 
     const FetchTodoGroups = () => {
-        fetch("/group").then((res) => res.json()).then(
+        fetch("api/group").then((res) => res.json()).then(
             (result) => {
                 setTodoGroups(result);
             }
@@ -46,8 +46,9 @@ function GroupsList({
         if (!groupName.trim()) {
             alert("Task can't be empty")
             return;
+
         }
-        fetch("/group", requestOptions).then((response) => {
+        fetch("api/group", requestOptions).then((response) => {
             if (!response.ok) {
                 throw new Error("Failed to add task");
             }
@@ -63,21 +64,24 @@ function GroupsList({
 
     return (
         <div className={"left-sidebar"}>
-            <IoMdAdd size={20} className={`add-group-button ${isGroupNameEnter ? "visible" : ""}`} onClick={saveButtonHandler}/>
-            <input type={"text"} className={`group-enter-bar ${isGroupNameEnter ? "visible" : ""}`} onChange={handleChange}
+            <IoMdAdd size={20} className={`add-group-button ${isGroupNameEnter ? "visible" : ""}`}
+                     onClick={saveButtonHandler}/>
+            <input type={"text"} className={`group-enter-bar ${isGroupNameEnter ? "visible" : ""}`}
+                   onChange={handleChange}
                    value={groupName}/>
             <VscEdit className={"open-enter-bar-group-button"} size={20} onClick={openEnterBar}/>
             <h2> Todo Groups</h2>
             <li>
                 {todoGroups.map((todoGroup) => (
                     <TodoGroup key={todoGroup.id} todoGroup={todoGroup} setTodoGroups={setTodoGroups}
-                               todos = {todos}
+                               todos={todos}
                                setAddingToGroupProvider={setAddingToGroupProvider}
                                setTodosInGroupForShow={setTodosInGroupForShow}
                                setIsGroupShowing={setIsGroupShowing}
                                isGroupShowing={isGroupShowing}
-                               setIsGroupChanged = {setIsGroupChanged}
-                               onTodoAdded= {onTodoAdded} // or changed
+                               setIsGroupChanged={setIsGroupChanged}
+                               onTodoAdded={onTodoAdded} // or changed
+                               setTodos={setTodos}
 
                     />
                 ))}

@@ -3,6 +3,7 @@ import EnterBar from "./EnterBar";
 import Todo from "./Todo";
 import GroupsList from "./GroupsList"
 import TodoList from "./TodoList";
+import {GetTodos} from "../todoService";
 
 function HomePage() {
 
@@ -16,23 +17,16 @@ function HomePage() {
     //TODO make new prop to the todos array for checked component
     //TODO Set to FALSE checkbox after adding to Group
     //TODO Context
+    //TODO add func to addSevice
 
     const HomeButtonHandler = () => {
         setIsGroupShowing(false)
     }
-    const FetchTodos = () => {
-        fetch("/todo")
-            .then((res) => res.json())
-            .then((result) => {
 
-                const todosWithChecked = result.map((todo) => ({
-                    ...todo, checked: false,
-                }));
-                setTodos(todosWithChecked);
-
-            });
+    const FetchTodos = async () => {
+        const todos = await GetTodos();
+        setTodos(todos)
     }
-
 
     return (<div>
         <header>
@@ -46,7 +40,8 @@ function HomePage() {
                 setIsGroupShowing={setIsGroupShowing}
                 isGroupShowing={isGroupShowing}
                 onTodoAdded={FetchTodos}
-                todos = {todos}
+                todos={todos}
+                setTodos ={setTodos}
             />
             <TodoList
                 addingToGroupProvider={addingToGroupProvider}

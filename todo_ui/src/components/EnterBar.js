@@ -15,7 +15,7 @@ const EnterBar = ({ onTodoAdded}) => {
             alert("Task can't be empty")
             return;
         }
-        fetch("/todo", requestOptions).then((response) => {
+        fetch("api/todo", requestOptions).then((response) => {
             if (!response.ok) {
                 throw new Error("Failed to add task");
             }

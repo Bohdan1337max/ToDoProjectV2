@@ -5,7 +5,7 @@ using todo_api.Repos;
 namespace todo_api.Controllers;
 
 [ApiController]
-[Route("group")]
+[Route("api/group")]
 public class TodoGroupController : ControllerBase
 {
     private readonly ITodoGroupRepository _todoGroupRepository;
@@ -23,7 +23,6 @@ public class TodoGroupController : ControllerBase
 
     [HttpGet]
     [Route("todosInGroup/{groupId:int}")]
-    
     public IEnumerable<Todo> GetTodosInGroup([FromRoute] int groupId)
     {
         return _todoGroupRepository.GetTodosInGroup(groupId);

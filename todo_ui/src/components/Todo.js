@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {HiOutlineTrash} from "react-icons/hi";
 
     function Todo({todo, setTodos, addingToGroupProvider, todosInGroup, setTodosInGroup}) {
@@ -15,7 +15,7 @@ import {HiOutlineTrash} from "react-icons/hi";
             method: "DELETE", headers: {"Content-Type": "application/json"}
         };
 
-        fetch(`/todo/${todo.id}`, requestOptions).then((response) => {
+        fetch(`api/todo/${todo.id}`, requestOptions).then((response) => {
             if (!response.ok) {
                 throw new Error("Failed to delete task");
             }
@@ -29,7 +29,7 @@ import {HiOutlineTrash} from "react-icons/hi";
             body: JSON.stringify({...todo, name: updatedName}),
         };
 
-        fetch(`/todo`, requestOptions)
+        fetch(`api/todo`, requestOptions)
             .then((response) => {
                 if (!response.ok) {
                     throw new Error("Failed to update task");
@@ -47,7 +47,7 @@ import {HiOutlineTrash} from "react-icons/hi";
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({...todo, completed: !isCompleted}),
         };
-        fetch(`/todo`, requestOptions).then((response) => {
+        fetch(`api/todo`, requestOptions).then((response) => {
             if (!response.ok) {
                 throw new Error("Failed to update task");
             }
@@ -92,6 +92,7 @@ import {HiOutlineTrash} from "react-icons/hi";
     };*/
         const removeFromGroup = () => {
             todo.checked = false;
+            todo.todoGroupId = null;
         };
 
 /*    const addToGroup = () => {
@@ -107,9 +108,13 @@ import {HiOutlineTrash} from "react-icons/hi";
 
         const addToGroup = () => {
             todo.checked = true
-            console.log(todo)
-
         }
+
+
+        useEffect(() => {
+            if(addingToGroupProvider)
+                setChecked(todo.checked)
+        }, [addingToGroupProvider]);
 
     return (<div className={`post ${isCompleted ? "completed" : ""}`}>
         {isEdited ?
