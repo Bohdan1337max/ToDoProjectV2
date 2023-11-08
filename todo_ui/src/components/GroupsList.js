@@ -11,7 +11,7 @@ function GroupsList({
     const [groupName, setGroupName] = useState('');
     const [todoGroups, setTodoGroups] = useState([]);
     const [isGroupChanged, setIsGroupChanged] = useState(false);
-
+    const [selectedGroup, setSelectedGroup] = useState(null);
     const FetchTodoGroups = () => {
         fetch("api/group").then((res) => res.json()).then(
             (result) => {
@@ -53,14 +53,22 @@ function GroupsList({
                 throw new Error("Failed to add task");
             }
         })
-            .then(() => setIsGroupChanged(true)).then(() => setGroupName("")).then(() => setIsGroupNameEnter(!isGroupNameEnter))
+            .then(() => setIsGroupChanged(true)).then(() => setGroupName(""))
+            .then(() => setIsGroupNameEnter(!isGroupNameEnter))
             .catch(error => console.log(error));
     }
 
     const handleChange = event => {
         setGroupName(event.target.value)
     }
-
+    const allGroupsButtonHandle = () => {
+        setIsGroupShowing(false)
+        setSelectedGroup(null)
+    }
+    const handleGroupSelection = (group) => {
+        setSelectedGroup(group);
+        console.log(selectedGroup)
+    };
 
     return (
         <div className={"left-sidebar"}>
@@ -71,18 +79,26 @@ function GroupsList({
                    value={groupName}/>
             <VscEdit className={"open-enter-bar-group-button"} size={20} onClick={openEnterBar}/>
             <h2> Todo Groups</h2>
-            <li>
-                {todoGroups.map((todoGroup) => (
-                    <TodoGroup key={todoGroup.id} todoGroup={todoGroup} setTodoGroups={setTodoGroups}
-                               todos={todos}
-                               setAddingToGroupProvider={setAddingToGroupProvider}
-                               setTodosInGroupForShow={setTodosInGroupForShow}
-                               setIsGroupShowing={setIsGroupShowing}
-                               isGroupShowing={isGroupShowing}
-                               setIsGroupChanged={setIsGroupChanged}
-                               onTodoAdded={onTodoAdded} // or changed
-                               setTodos={setTodos}
 
+            <li>
+                <div style={{justifyContent: "center", cursor: "pointer"}}
+                     className={"todo-group"}
+                     onClick={allGroupsButtonHandle}>
+                    All groups
+                </div>
+                {todoGroups.map((todoGroup) => (
+                    <TodoGroup
+                        key={todoGroup.id} todoGroup={todoGroup} setTodoGroups={setTodoGroups}
+                        todos={todos}
+                        setAddingToGroupProvider={setAddingToGroupProvider}
+                        setTodosInGroupForShow={setTodosInGroupForShow}
+                        setIsGroupShowing={setIsGroupShowing}
+                        isGroupShowing={isGroupShowing}
+                        setIsGroupChanged={setIsGroupChanged}
+                        onTodoAdded={onTodoAdded} // or changed
+                        setTodos={setTodos}
+                        selectedGroup={selectedGroup}
+                        handleGroupSelection={handleGroupSelection}
                     />
                 ))}
             </li>

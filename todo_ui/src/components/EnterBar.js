@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 
 
-const EnterBar = ({ onTodoAdded}) => {
+const EnterBar = ({onTodoAdded}) => {
     const [taskName, setTaskName] = useState('');
     const requestOptions = {
         method: "POST",

@@ -14,7 +14,7 @@ function TodoList({
 
     useEffect(() => {
         onTodoAdded();
-    },[]);
+    }, []);
 
 
     return (

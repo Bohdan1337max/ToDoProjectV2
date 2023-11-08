@@ -12,11 +12,12 @@ function TodoGroup({
                        setIsGroupShowing,
                        onTodoAdded,
                        todos,
-                       setTodos
+                       setTodos,
+                       selectedGroup,
+                       handleGroupSelection
                    }) {
 
     const [isAddingToGroup, setIsAddingToGroup] = useState(false);
-    const [todosInGroup, setTodosInGroup] = useState([]);
 
     function deleteTask() {
         const requestOptions = {
@@ -42,9 +43,12 @@ function TodoGroup({
 
     const ShowTodosInGroup = () => {
         FetchTodosInGroup();
+
         if (!isGroupShowing) {
             setIsGroupShowing(true)
         }
+
+        handleGroupSelection(todoGroup)
     }
 
     const addingToGroupHandler = () => {
@@ -69,13 +73,14 @@ function TodoGroup({
     }
 
     const closeAddingToGroupHandler = () => {
-       const uncheckedTodos = todos.map((todo) => ({
+        const uncheckedTodos = todos.map((todo) => ({
             ...todo, checked: false,
-        }) )
+        }))
         showAddingToGroupHandler();
-       setTodos(uncheckedTodos)
+        setTodos(uncheckedTodos)
         console.log(todos)
     }
+
     const setCheckedTodos = () => {
         const checkedTodos = todos.filter((todo) => todo.checked === true)
         const todosInGroup = checkedTodos.map((todo) => todo.id)
@@ -94,10 +99,9 @@ function TodoGroup({
     }
 
     return (
-        <div className={"todo-group"}>
+        <div className={`todo-group ${selectedGroup === todoGroup ? "selected" : ""}`}>
             <div className={'todo-group-text'} onClick={ShowTodosInGroup}>
                 {todoGroup.name}
-
             </div>
 
             {isAddingToGroup ?
@@ -109,7 +113,6 @@ function TodoGroup({
             <div className={"delete-group-button"}>
                 <HiOutlineTrash size={"20"} color={"red"} onClick={deleteTask}/>
             </div>
-
         </div>
     )
 

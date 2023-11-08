@@ -13,15 +13,9 @@ function HomePage() {
     const [isGroupShowing, setIsGroupShowing] = useState(false)
     const [todos, setTodos] = useState([]);
 
-
-    //TODO make new prop to the todos array for checked component
-    //TODO Set to FALSE checkbox after adding to Group
     //TODO Context
     //TODO add func to addSevice
 
-    const HomeButtonHandler = () => {
-        setIsGroupShowing(false)
-    }
 
     const FetchTodos = async () => {
         const todos = await GetTodos();
@@ -30,7 +24,7 @@ function HomePage() {
 
     return (<div>
         <header>
-            <h1 onClick={HomeButtonHandler}>Todo LIST</h1>
+            <h1>Todo LIST</h1>
             <EnterBar onTodoAdded={FetchTodos}/>
         </header>
         <main>
@@ -41,7 +35,7 @@ function HomePage() {
                 isGroupShowing={isGroupShowing}
                 onTodoAdded={FetchTodos}
                 todos={todos}
-                setTodos ={setTodos}
+                setTodos={setTodos}
             />
             <TodoList
                 addingToGroupProvider={addingToGroupProvider}
