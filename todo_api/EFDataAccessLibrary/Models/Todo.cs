@@ -11,5 +11,5 @@ public class Todo
     [Column("name")] public string Name { get; set; } = null!;
     [Column("completed")] public bool Completed { get; set; }
     [Column("todo_group_id")] public int? TodoGroupId { get; set; }
-    [Column("sub_todo_id")] public int? SubTodoId { get; set; }
+    [Column("parent_todo_id")] public int? ParentTodoId { get; set; }
 }

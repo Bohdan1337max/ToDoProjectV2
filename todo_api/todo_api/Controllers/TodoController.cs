@@ -22,7 +22,14 @@ public class TodoController : ControllerBase
     {
         return _todoRepository.GetTodo();
     }
-
+    
+    [HttpGet]
+    [Route("subTodosInTodo/{todoId:int}")]
+    public IEnumerable<Todo> GetSubTodosInTodo(int todoId)
+    {
+        return _todoRepository.GetSubTodosInTodo(todoId);
+    }
+    
     [HttpPost]
     public IActionResult AddTodo([FromBody] string name)
     {
@@ -52,10 +59,10 @@ public class TodoController : ControllerBase
     }
 
     [HttpPut]
-    [Route("{todoId:int}")]
-    public IActionResult AddSubTodo([FromRoute] int todoId,[FromBody] SubTodoIds subTodoIds)
+    [Route("{parentTodoId:int}")]
+    public IActionResult AddSubTodo([FromRoute] int parentTodoId,[FromBody] SubTodoIds subTodoIds)
     {
-        if (!_todoRepository.AddSubTodo(todoId, subTodoIds.SubTodoIdsInTodo))
+        if (!_todoRepository.AddSubTodo(parentTodoId, subTodoIds.SubTodoIdsInTodo))
             return NotFound();
         return Ok();
     }
