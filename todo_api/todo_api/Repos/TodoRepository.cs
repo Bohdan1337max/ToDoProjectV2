@@ -42,6 +42,23 @@ public class TodoRepository : ITodoRepository
         return true;
     }
 
+    public bool AddSubTodo(int todoId, int[] subTodoIds)
+    {
+        var todoFromDb = _todosContext.Todos.FirstOrDefault(t => t.Id == todoId);
+        if (todoFromDb is null)
+            return false;
+        
+        foreach (var subTodoId in subTodoIds)
+        {
+            var subTodoFromDb = _todosContext.Todos.FirstOrDefault(s => s.Id == subTodoId);
+            if (subTodoFromDb is null)
+                return false;
+            subTodoFromDb.SubTodoId = todoFromDb.Id;
+        }
+        _todosContext.SaveChanges();
+        return true;
+    }
+
     public (bool isUpdated, Todo? updatedTodo) UpdateTodo(Todo todo)
     {
         var isUpdated = false;

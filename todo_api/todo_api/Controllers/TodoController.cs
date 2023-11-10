@@ -41,7 +41,7 @@ public class TodoController : ControllerBase
             return NotFound();
         return Ok();
     }
-    
+
     [HttpPut]
     public IActionResult UpdateTodo(Todo todo)
     {
@@ -49,5 +49,14 @@ public class TodoController : ControllerBase
         if (!isUpdated)
             return NotFound();
         return Ok(updatedTask);
+    }
+
+    [HttpPut]
+    [Route("{todoId:int}")]
+    public IActionResult AddSubTodo([FromRoute] int todoId,[FromBody] SubTodoIds subTodoIds)
+    {
+        if (!_todoRepository.AddSubTodo(todoId, subTodoIds.SubTodoIdsInTodo))
+            return NotFound();
+        return Ok();
     }
 }

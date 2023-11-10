@@ -4,9 +4,9 @@ namespace todo_api.Repos;
 
 public interface ITodoGroupRepository
 {
-    public TodoGroup CreateTodoGroup(string name);
-    public IEnumerable<TodoGroup> GetTodoGroups();
-    public bool AddTodoToGroup(int groupId,int[] todoIds);
-    public bool DeleteTodoGroup(int id);
-    public IEnumerable<Todo> GetTodosInGroup(int groupId);
+    TodoGroup CreateTodoGroup(string name);
+    IEnumerable<TodoGroup> GetTodoGroups();
+    bool AddTodoToGroup(int groupId, int[] todoIds);
+    bool DeleteTodoGroup(int id);
+    IEnumerable<Todo> GetTodosInGroup(int groupId);
 }

@@ -18,7 +18,7 @@ function TodoGroup({
                    }) {
 
     const [isAddingToGroup, setIsAddingToGroup] = useState(false);
-
+// change FetchTodosInGroup to Filtr
     function deleteTask() {
         const requestOptions = {
             method: "DELETE", headers: {"Content-Type": "application/json"}
@@ -43,11 +43,9 @@ function TodoGroup({
 
     const ShowTodosInGroup = () => {
         FetchTodosInGroup();
-
         if (!isGroupShowing) {
             setIsGroupShowing(true)
         }
-
         handleGroupSelection(todoGroup)
     }
 
