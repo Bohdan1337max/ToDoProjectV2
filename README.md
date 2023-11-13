@@ -11,8 +11,6 @@ A simple To-Do List application with a .NET Core Web API backend and a React fro
   - [Backend Setup](#backend-setup)
   - [Frontend Setup](#frontend-setup)
 - [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Introduction
 
@@ -59,7 +57,7 @@ The backend API should now be running at [http://localhost:5094].
 2. Install frontend dependencies: npm install
 3. Start the React development server: npm start
 The React frontend should now be running at http://localhost:3000.
-## Usages
+## Usage
 
 1. Open your web browser and go to http://localhost:3000 to access the To-Do List App.
 2. Start managing your tasks and to-do items.
