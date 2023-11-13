@@ -4,8 +4,13 @@ import {IoMdAdd} from "react-icons/io";
 import TodoGroup from "./TodoGroup";
 
 function GroupsList({
-                        setAddingToGroupProvider, setTodosInGroupForShow, isGroupShowing,
-                        setIsGroupShowing, onTodoAdded, todos, setTodos
+                        setAddingToGroupProvider,
+                        setTodosInGroupForShow,
+                        todoGroupIdForShow,
+                        setTodoGroupIdForShow,
+                        onTodoAdded,
+                        todos,
+                        setTodos
                     }) {
     const [isGroupNameEnter, setIsGroupNameEnter] = useState(false);
     const [groupName, setGroupName] = useState('');
@@ -13,11 +18,9 @@ function GroupsList({
     const [isGroupChanged, setIsGroupChanged] = useState(false);
     const [selectedGroup, setSelectedGroup] = useState(null);
     const FetchTodoGroups = () => {
-        fetch("api/group").then((res) => res.json()).then(
-            (result) => {
-                setTodoGroups(result);
-            }
-        )
+        fetch("api/group").then((res) => res.json()).then((result) => {
+            setTodoGroups(result);
+        })
     }
 
     useEffect(() => {
@@ -33,9 +36,7 @@ function GroupsList({
     }, [isGroupChanged]);
 
     const requestOptions = {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(groupName)
+        method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(groupName)
     }
 
     function openEnterBar() {
@@ -62,7 +63,7 @@ function GroupsList({
         setGroupName(event.target.value)
     }
     const allGroupsButtonHandle = () => {
-        setIsGroupShowing(false)
+        setTodoGroupIdForShow(null)
         setSelectedGroup(null)
     }
     const handleGroupSelection = (group) => {
@@ -70,8 +71,7 @@ function GroupsList({
         console.log(selectedGroup)
     };
 
-    return (
-        <div className={"left-sidebar"}>
+    return (<div className={"left-sidebar"}>
             <IoMdAdd size={20} className={`add-group-button ${isGroupNameEnter ? "visible" : ""}`}
                      onClick={saveButtonHandler}/>
             <input type={"text"} className={`group-enter-bar ${isGroupNameEnter ? "visible" : ""}`}
@@ -86,24 +86,21 @@ function GroupsList({
                      onClick={allGroupsButtonHandle}>
                     All groups
                 </div>
-                {todoGroups.map((todoGroup) => (
-                    <TodoGroup
+                {todoGroups.map((todoGroup) => (<TodoGroup
                         key={todoGroup.id} todoGroup={todoGroup} setTodoGroups={setTodoGroups}
                         todos={todos}
                         setAddingToGroupProvider={setAddingToGroupProvider}
                         setTodosInGroupForShow={setTodosInGroupForShow}
-                        setIsGroupShowing={setIsGroupShowing}
-                        isGroupShowing={isGroupShowing}
+                        setTodoGroupIdForShow={setTodoGroupIdForShow}
+                        todoGroupIdForShow={todoGroupIdForShow}
                         setIsGroupChanged={setIsGroupChanged}
                         onTodoAdded={onTodoAdded} // or changed
                         setTodos={setTodos}
                         selectedGroup={selectedGroup}
                         handleGroupSelection={handleGroupSelection}
-                    />
-                ))}
+                    />))}
             </li>
-        </div>
-    );
+        </div>);
 }
 
 
