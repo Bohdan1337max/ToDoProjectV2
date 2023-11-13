@@ -6,6 +6,7 @@ function TodoGroup({
                        todoGroup,
                        setTodoGroups,
                        setAddingToGroupProvider,
+                       addingToGroupProvider,
                        setTodoGroupIdForShow,
                        onTodoAdded,
                        todos,
@@ -32,6 +33,10 @@ function TodoGroup({
     }
 
     const addingToGroupHandler = () => {
+
+        if(addingToGroupProvider)
+            return
+
         const updatedTodos = todos.map((todo) => {
             if (todo.todoGroupId === todoGroup.id) {
                 return {...todo, checked: true};
@@ -39,11 +44,8 @@ function TodoGroup({
                 return todo
             }
         })
-
         setTodos(updatedTodos);
-
-        showAddingToGroupHandler();
-        console.log(updatedTodos)
+        showAddingToGroupHandler()
     }
 
     const showAddingToGroupHandler = () => {

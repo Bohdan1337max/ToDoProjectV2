@@ -22,7 +22,7 @@ function HomePage() {
 
     return (<div>
         <header>
-            <h1>Todo LIST</h1>
+            <h1>Task Helper</h1>
             <EnterBar onTodoAdded={FetchTodos}/>
         </header>
         <main>
@@ -31,6 +31,7 @@ function HomePage() {
                 setTodoGroupIdForShow={setTodoGroupIdForShow}
                 todoGroupIdForShow={todoGroupIdForShow}
                 onTodoAdded={FetchTodos}
+                addingToGroupProvider = {addingToGroupProvider}
                 todos={todos}
                 setTodos={setTodos}
             />
