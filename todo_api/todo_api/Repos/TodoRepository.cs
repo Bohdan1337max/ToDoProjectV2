@@ -19,6 +19,11 @@ public class TodoRepository : ITodoRepository
         return _todosContext.Todos.ToList();
     }
 
+    public IEnumerable<Todo> GetSubTodosInTodo(int todoId)
+    {
+        return _todosContext.Todos.Where(todo => todo.ParentTodoId == todoId).ToList();
+    }
+
     public Todo AddTodo(string name)
     {
         var task = new Todo()
@@ -38,6 +43,24 @@ public class TodoRepository : ITodoRepository
         if (task is null)
             return false;
         _todosContext.Todos.Remove(task);
+        _todosContext.SaveChanges();
+        return true;
+    }
+
+    public bool AddSubTodo(int parentTodoId, int[] subTodoIds)
+    {
+        var parentTodoFromDb = _todosContext.Todos.FirstOrDefault(t => t.Id == parentTodoId);
+        if (parentTodoFromDb is null)
+            return false;
+
+        var subTodoIdsFromDb = _todosContext.Todos.Where(t => subTodoIds.Contains(t.Id)).ToList();
+
+        if (subTodoIdsFromDb.Count == 0)
+            return false;
+
+        subTodoIdsFromDb.ForEach(s => s.ParentTodoId = parentTodoId);
+
+
         _todosContext.SaveChanges();
         return true;
     }

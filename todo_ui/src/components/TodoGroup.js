@@ -1,20 +1,17 @@
 import React, {useState, useEffect} from "react";
 import {HiOutlineTrash, HiCheck, HiX} from "react-icons/hi";
 import {IoMdAdd} from "react-icons/io";
-import todo from "./Todo";
 
 function TodoGroup({
                        todoGroup,
                        setTodoGroups,
                        setAddingToGroupProvider,
-                       setTodosInGroupForShow,
-                       isGroupShowing,
-                       setIsGroupShowing,
+                       addingToGroupProvider,
+                       setTodoGroupIdForShow,
                        onTodoAdded,
                        todos,
                        setTodos,
                        selectedGroup,
-                       handleGroupSelection
                    }) {
 
     const [isAddingToGroup, setIsAddingToGroup] = useState(false);
@@ -30,28 +27,16 @@ function TodoGroup({
         }).then(() => setTodoGroups(prev => prev.filter(el => el.id !== todoGroup.id)))
     }
 
-    const FetchTodosInGroup = () => {
-        const requestOptions = {
-            method: "GET", headers: {"Content-Type": "application/json"}
-        };
-        fetch(`api/group/todosInGroup/${todoGroup.id}`, requestOptions).then((res) => res.json()).then(
-            (result) => {
-                setTodosInGroupForShow(result);
-            }
-        )
-    }
 
     const ShowTodosInGroup = () => {
-        FetchTodosInGroup();
-
-        if (!isGroupShowing) {
-            setIsGroupShowing(true)
-        }
-
-        handleGroupSelection(todoGroup)
+        setTodoGroupIdForShow(todoGroup.id);
     }
 
     const addingToGroupHandler = () => {
+
+        if(addingToGroupProvider)
+            return
+
         const updatedTodos = todos.map((todo) => {
             if (todo.todoGroupId === todoGroup.id) {
                 return {...todo, checked: true};
@@ -59,11 +44,8 @@ function TodoGroup({
                 return todo
             }
         })
-
         setTodos(updatedTodos);
-
-        showAddingToGroupHandler();
-        console.log(updatedTodos)
+        showAddingToGroupHandler()
     }
 
     const showAddingToGroupHandler = () => {

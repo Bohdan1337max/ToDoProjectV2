@@ -7,10 +7,8 @@ import {GetTodos} from "../todoService";
 
 function HomePage() {
 
-
     const [addingToGroupProvider, setAddingToGroupProvider] = useState(false);
-    const [todosInGroupForShow, setTodosInGroupForShow] = useState([]);
-    const [isGroupShowing, setIsGroupShowing] = useState(false)
+    const [todoGroupIdForShow, setTodoGroupIdForShow] = useState(null)
     const [todos, setTodos] = useState([]);
 
     //TODO Context
@@ -24,23 +22,22 @@ function HomePage() {
 
     return (<div>
         <header>
-            <h1>Todo LIST</h1>
+            <h1>Task Helper</h1>
             <EnterBar onTodoAdded={FetchTodos}/>
         </header>
         <main>
             <GroupsList
                 setAddingToGroupProvider={setAddingToGroupProvider}
-                setTodosInGroupForShow={setTodosInGroupForShow}
-                setIsGroupShowing={setIsGroupShowing}
-                isGroupShowing={isGroupShowing}
+                setTodoGroupIdForShow={setTodoGroupIdForShow}
+                todoGroupIdForShow={todoGroupIdForShow}
                 onTodoAdded={FetchTodos}
+                addingToGroupProvider = {addingToGroupProvider}
                 todos={todos}
                 setTodos={setTodos}
             />
             <TodoList
                 addingToGroupProvider={addingToGroupProvider}
-                todosInGroupForShow={todosInGroupForShow}
-                isGroupShowing={isGroupShowing}
+                todoGroupIdForShow={todoGroupIdForShow}
                 onTodoAdded={FetchTodos}
                 todos={todos}
                 setTodos={setTodos}

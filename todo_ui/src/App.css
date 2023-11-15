@@ -169,13 +169,10 @@ header {
 .add-todo-to-group-button {
     cursor: pointer;
     color: #863d80;
-    margin-left: 70px;
     padding: 0px;
-
 }
 
 .todo-group-text {
-    text-align: left;
     cursor: pointer;
 }
 

@@ -44,11 +44,10 @@ public class TodoGroupRepository : ITodoGroupRepository
         }
 
 
-        var todosToRemoveFromGroup = _todosContext.Todos.Where(todo => !todoIds.Contains(todo.Id)).ToList();
+        var todosToRemoveFromGroup = _todosContext.Todos.Where(todo => todo.TodoGroupId == groupId && !todoIds.Contains(todo.Id)).ToList();
 
         foreach (var todo in todosToRemoveFromGroup)
         {
-            if (todo.TodoGroupId == groupId)
                 todo.TodoGroupId = null;
         }
 

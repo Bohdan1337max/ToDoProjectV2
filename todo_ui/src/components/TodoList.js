@@ -7,8 +7,7 @@ function TodoList({
                       addingToGroupProvider,
                       todosInGroup,
                       setTodosInGroup,
-                      isGroupShowing,
-                      todosInGroupForShow,
+                      todoGroupIdForShow,
                       onTodoAdded
                   }) {
 
@@ -16,40 +15,24 @@ function TodoList({
         onTodoAdded();
     }, []);
 
+    const filteredTodosByGroup = todoGroupIdForShow ? todos.filter((todo) => todo.todoGroupId === todoGroupIdForShow) : todos
 
     return (
-        <div>
-            {isGroupShowing ? (
-                <ul>
-                    {todosInGroupForShow.map((todo) => (
-                        <Todo
-                            key={todo.id}
-                            todo={todo}
-                            setTodos={setTodos}
-                            todos={todos}
-                            todosInGroup={todosInGroup}
-                            setTodosInGroup={setTodosInGroup}
-                            addingToGroupProvider={addingToGroupProvider}
-                        />
-                    ))}
-                </ul>
-            ) : (
-                <ul>
-                    {todos.map((todo) => (
-                        <Todo
-                            key={todo.id}
-                            todo={todo}
-                            setTodos={setTodos}
-                            todos={todos}
-                            todosInGroup={todosInGroup}
-                            setTodosInGroup={setTodosInGroup}
-                            addingToGroupProvider={addingToGroupProvider}
 
-                        />
-                    ))}
-                </ul>
-            )}
-        </div>
+        <ul>
+            {filteredTodosByGroup.map((todo) => (
+                <Todo
+                    key={todo.id}
+                    todo={todo}
+                    setTodos={setTodos}
+                    todos={todos}
+                    todosInGroup={todosInGroup}
+                    setTodosInGroup={setTodosInGroup}
+                    addingToGroupProvider={addingToGroupProvider}
+                />
+            ))}
+        </ul>
+
 
     );
 }
