@@ -1,4 +1,4 @@
-# ToDoProject
+# TaskCrafter
 
 A To-Do List application with a .NET Core Web API backend and a React frontend.
 
@@ -14,7 +14,7 @@ A To-Do List application with a .NET Core Web API backend and a React frontend.
 
 ## Introduction
 
-The To-Do List App is a web application that allows users to manage their tasks and to-do items. It consists of a .NET Core Web API backend for handling data and a React frontend for the user interface.
+The TaskCrafter is a web application that allows users to manage their tasks and to-do items. It consists of a .NET Core Web API backend for handling data and a React frontend for the user interface.
 
 ## Features
 
