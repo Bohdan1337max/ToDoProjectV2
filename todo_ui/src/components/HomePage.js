@@ -14,7 +14,6 @@ function HomePage() {
     //TODO Context
     //TODO add func to addSevice
 
-
     const FetchTodos = async () => {
         const todos = await GetTodos();
         setTodos(todos)
@@ -22,7 +21,7 @@ function HomePage() {
 
     return (<div>
         <header>
-            <h1>Task Helper</h1>
+            <h1>Task Crafter</h1>
             <EnterBar onTodoAdded={FetchTodos}/>
         </header>
         <main>
