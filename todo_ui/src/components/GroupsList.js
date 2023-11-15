@@ -10,7 +10,8 @@ function GroupsList({
                         setTodoGroupIdForShow,
                         onTodoAdded,
                         todos,
-                        setTodos
+                        setTodos,
+                        addingToGroupProvider
                     }) {
     const [isGroupNameEnter, setIsGroupNameEnter] = useState(false);
     const [groupName, setGroupName] = useState('');
@@ -98,6 +99,7 @@ function GroupsList({
                         setTodos={setTodos}
                         selectedGroup={selectedGroup}
                         handleGroupSelection={handleGroupSelection}
+                        addingToGroupProvider = {addingToGroupProvider}
                     />))}
             </li>
         </div>);

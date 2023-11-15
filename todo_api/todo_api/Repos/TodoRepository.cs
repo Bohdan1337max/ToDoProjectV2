@@ -52,14 +52,15 @@ public class TodoRepository : ITodoRepository
         var parentTodoFromDb = _todosContext.Todos.FirstOrDefault(t => t.Id == parentTodoId);
         if (parentTodoFromDb is null)
             return false;
-        
-        foreach (var subTodoId in subTodoIds)
-        {
-            var subTodoFromDb = _todosContext.Todos.FirstOrDefault(s => s.Id == subTodoId);
-            if (subTodoFromDb is null)
-                return false;
-            subTodoFromDb.ParentTodoId = parentTodoFromDb.Id;
-        }
+
+        var subTodoIdsFromDb = _todosContext.Todos.Where(t => subTodoIds.Contains(t.Id)).ToList();
+
+        if (subTodoIdsFromDb.Count == 0)
+            return false;
+
+        subTodoIdsFromDb.ForEach(s => s.ParentTodoId = parentTodoId);
+
+
         _todosContext.SaveChanges();
         return true;
     }

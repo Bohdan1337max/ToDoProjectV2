@@ -99,10 +99,9 @@ function Todo({todo, setTodos, addingToGroupProvider}) {
         {isEdited ?
             <textarea className={"edit-input"} type={"text"} defaultValue={todo.name} onChange={handleChange}/> :
             <div className={"task-text"}>{todo.name}</div>}
+        <div> {addingToGroupProvider ?
+            <input type={"checkbox"} checked={checked} onChange={checkBoxChangeHandle}/> : ""}</div>
         <div className={"edit-buttons"} role={"group"}>
-            <div> {addingToGroupProvider ?
-                <input type={"checkbox"} checked={checked} onChange={checkBoxChangeHandle}/> : ""}</div>
-
             <button className={"edit-button"} onClick={editButtonHandle}>{editButtonLabel}</button>
             <div className={"complete-button"}
                  onClick={completeTask}>{isCompleted ? "Uncomplete" : "Complete"}</div>
