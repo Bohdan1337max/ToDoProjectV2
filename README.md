@@ -1,6 +1,6 @@
 # TaskCrafter
 
-A To-Do List application with a .NET Core Web API backend and a React frontend.
+Web application with a .NET Core Web API backend and a React frontend.
 
 ## Table of Contents
 
