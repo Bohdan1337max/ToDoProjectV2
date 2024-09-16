@@ -1,62 +1,41 @@
-import React, { useState, useEffect } from "react";
-import EnterBar from "./EnterBar";
+import React, {useState, useEffect} from "react";
 import Todo from "./Todo";
 
-function TodoList() {
-    const [error, setError] = useState(null);
-    const [isLoaded, setIsLoaded] = useState(false);
-    const [isPosted, setIsPosted] = useState(false);
-    const [todos, setTodos] = useState([]);
-
-
-    const FetchData = () => {
-        fetch("/TodoController")
-            .then((res) => res.json())
-            .then(
-                (result) => {
-                    setIsLoaded(true);
-                    setTodos(result);
-                },
-                (error) => {
-                    setIsLoaded(false);
-                    setError(error);
-                }
-            );
-    }
+function TodoList({
+                      todos,
+                      setTodos,
+                      addingToGroupProvider,
+                      todosInGroup,
+                      setTodosInGroup,
+                      todoGroupIdForShow,
+                      onTodoAdded
+                  }) {
 
     useEffect(() => {
-        FetchData();
-    }, []); // The empty dependency array ensures this runs only once on mount
+        onTodoAdded();
+    }, []);
 
-    useEffect(() => {
-        if (isPosted) {
-            FetchData();
-            setIsPosted(false)
-        }
-    }, [isPosted]);
+    const filteredTodosByGroup = todoGroupIdForShow ? todos.filter((todo) => todo.todoGroupId === todoGroupIdForShow) : todos
+
+    return (
+
+        <ul>
+            {filteredTodosByGroup.map((todo) => (
+                <Todo
+                    key={todo.id}
+                    todo={todo}
+                    setTodos={setTodos}
+                    todos={todos}
+                    todosInGroup={todosInGroup}
+                    setTodosInGroup={setTodosInGroup}
+                    addingToGroupProvider={addingToGroupProvider}
+                />
+            ))}
+        </ul>
 
 
-    if (error) {
-        return <div>Error: {error.message}</div>;
-    } else if (!isLoaded) {
-        return <div>Loading...</div>;
-    } else if (isLoaded) {
-        return (
-            <div>
-                <header>
-                    <h1>Todo LIST</h1>
-                    <EnterBar isPosted={isPosted} setIsPosted={setIsPosted}  />
-                </header>
-                <main>
-                    <ul>
-                        {todos.map((todo) => (
-                            <Todo key={todo.id} todo={todo} setTodos = {setTodos} todos = {todos}/>
-                        ))}
-                    </ul>
-                </main>
-            </div>
-        );
-    }
+    );
 }
+
 
 export default TodoList;

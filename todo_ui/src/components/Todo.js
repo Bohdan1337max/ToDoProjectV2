@@ -1,17 +1,20 @@
-import React, {useState} from "react";
-import {MdDeleteForever} from "react-icons/md";
+import React, {useEffect, useState} from "react";
+import {HiOutlineTrash} from "react-icons/hi";
 
-function Todo({todo, setTodos}) {
+function Todo({todo, setTodos, addingToGroupProvider}) {
+
+
     const [isEdited, setIsEdited] = useState(false);
+    const [checked, setChecked] = useState(false);
     const [updatedName, setUpdatedName] = useState(todo.name);
     const [isCompleted, setIsCompleted] = useState(todo.completed);
 
     function deleteTask() {
         const requestOptions = {
-            method: "DELETE", headers: {"Content-Type": "application/json"}, body: JSON.stringify(todo.id)
+            method: "DELETE", headers: {"Content-Type": "application/json"}
         };
 
-        fetch("/TodoController", requestOptions).then((response) => {
+        fetch(`api/todo/${todo.id}`, requestOptions).then((response) => {
             if (!response.ok) {
                 throw new Error("Failed to delete task");
             }
@@ -25,7 +28,7 @@ function Todo({todo, setTodos}) {
             body: JSON.stringify({...todo, name: updatedName}),
         };
 
-        fetch(`/TodoController`, requestOptions)
+        fetch(`api/todo`, requestOptions)
             .then((response) => {
                 if (!response.ok) {
                     throw new Error("Failed to update task");
@@ -43,7 +46,7 @@ function Todo({todo, setTodos}) {
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({...todo, completed: !isCompleted}),
         };
-        fetch(`/TodoController`, requestOptions).then((response) => {
+        fetch(`api/todo`, requestOptions).then((response) => {
             if (!response.ok) {
                 throw new Error("Failed to update task");
             }
@@ -52,12 +55,9 @@ function Todo({todo, setTodos}) {
             .catch((error) => {
                 console.error(error);
             });
-
-
     }
     const handleChange = event => {
         setUpdatedName(event.target.value);
-        console.log(updatedName)
     }
 
     const editButtonLabel = isEdited ? "Save" : "Edit";
@@ -70,17 +70,44 @@ function Todo({todo, setTodos}) {
         setIsEdited(!isEdited);
     };
 
+    const checkBoxChangeHandle = () => {
+        const currentCheckBoxValue = !todo.checked;
+
+        if (currentCheckBoxValue) {
+            addToGroup()
+        } else {
+            removeFromGroup()
+        }
+        setChecked(currentCheckBoxValue)
+    }
+
+    const removeFromGroup = () => {
+        todo.checked = false;
+        todo.todoGroupId = null;
+    };
+
+    const addToGroup = () => {
+        todo.checked = true
+    }
+
+    useEffect(() => {
+        if (addingToGroupProvider)
+            setChecked(todo.checked)
+    }, [addingToGroupProvider]);
 
     return (<div className={`post ${isCompleted ? "completed" : ""}`}>
         {isEdited ?
             <textarea className={"edit-input"} type={"text"} defaultValue={todo.name} onChange={handleChange}/> :
             <div className={"task-text"}>{todo.name}</div>}
+        <div> {addingToGroupProvider ?
+            <input type={"checkbox"} checked={checked} onChange={checkBoxChangeHandle}/> : ""}</div>
         <div className={"edit-buttons"} role={"group"}>
             <button className={"edit-button"} onClick={editButtonHandle}>{editButtonLabel}</button>
             <div className={"complete-button"}
                  onClick={completeTask}>{isCompleted ? "Uncomplete" : "Complete"}</div>
+
             <div className={"delete-img"} onClick={deleteTask}>
-                <MdDeleteForever size={"30"} color={"red"}/>
+                <HiOutlineTrash size={"30"} color={"red"}/>
             </div>
         </div>
     </div>);

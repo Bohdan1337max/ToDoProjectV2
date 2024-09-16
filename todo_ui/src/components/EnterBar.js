@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 
 
-const EnterBar = ({isPosted, setIsPosted}) => {
+const EnterBar = ({onTodoAdded}) => {
     const [taskName, setTaskName] = useState('');
     const requestOptions = {
         method: "POST",
@@ -15,12 +15,12 @@ const EnterBar = ({isPosted, setIsPosted}) => {
             alert("Task can't be empty")
             return;
         }
-        fetch("/TodoController", requestOptions).then((response) => {
+        fetch("api/todo", requestOptions).then((response) => {
             if (!response.ok) {
                 throw new Error("Failed to add task");
             }
         })
-            .then(() => setIsPosted(true)).then(() => setTaskName(""))
+            .then(() => onTodoAdded()).then(() => setTaskName(""))
             .catch(error => console.log(error));
     }
 
